@@ -22,7 +22,7 @@
 
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01 };
-int joystick[4];
+int joystick[2];
 int i = 0;
 
 // the setup routine runs once when you press reset:
@@ -41,11 +41,10 @@ void setup() {
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
-  radio.begin(250000, 108);  // Defaults 1Mbps, channel 0, max TX power
+  radio.begin(2000000, 100);  // Defaults 1Mbps, channel 0, max TX power
   radio.setTXpower(0);
-  radio.autoAck(true);
+  radio.autoAck(false);
   radio.setCRC(true, true);
-  radio.setAutoAckParams(0, 2000);
   radio.setRXaddress((void*)rxaddr);
   radio.setTXaddress((void*)rxaddr);
 }
@@ -55,19 +54,24 @@ void loop() {
   i += 10;
   if (i > 1023) i = 0;
 
-  joystick[0] = 0; //analogRead(JOYSTICK_X);
-  joystick[1] = 0; //analogRead(JOYSTICK_Y);
-  joystick[2] = i; //analogRead(JOYSTICK_L);
-  joystick[3] = i; //analogRead(JOYSTICK_M);
+  joystick[0] = i; //LEFT_RIGHT
+  joystick[1] = i; //UP_DOWN
   
   delay(10);
-  Serial.println(joystick[3]);
+  Serial.print(joystick[0]);
   radio.write(joystick, sizeof(joystick));
   radio.flush();
   
   if (radio.lastTXfailed) {
-    Serial.println(F("failed"));
+    Serial.println(" X");
+    //digitalWrite(LED, HIGH);
+    //digitalWrite(BUZZER, HIGH);
+  } else {
+    Serial.println("");
+    digitalWrite(LED, LOW);
+    digitalWrite(BUZZER, LOW);
   }
+  Serial.flush();
   delay(10);
 
   
