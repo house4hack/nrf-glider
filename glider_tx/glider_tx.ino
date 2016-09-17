@@ -33,9 +33,9 @@ void setup() {
   pinMode(LEFT_RIGHT, INPUT);
   pinMode(UP_DOWN, INPUT);
 
-  digitalWrite(BUZZER, LOW);    
+  digitalWrite(BUZZER, LOW);  
+  digitalWrite(LED, HIGH);  
   Serial.begin(9600); 
-
 
   SPI.begin();
   SPI.setDataMode(SPI_MODE0);
@@ -43,6 +43,9 @@ void setup() {
 
   radio.begin(250000, 108);  // Defaults 1Mbps, channel 0, max TX power
   radio.setTXpower(0);
+  radio.autoAck(true);
+  radio.setCRC(true, true);
+  radio.setAutoAckParams(0, 2000);
   radio.setRXaddress((void*)rxaddr);
   radio.setTXaddress((void*)rxaddr);
 }
@@ -50,16 +53,19 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
   i += 10;
-
-  joystick[0] = i; //analogRead(JOYSTICK_X);
-  joystick[1] = 0; //analogRead(JOYSTICK_Y);
-  joystick[2] = 0; //analogRead(JOYSTICK_L);
-  joystick[3] = 0; //analogRead(JOYSTICK_M);
   if (i > 1023) i = 0;
+
+  joystick[0] = 0; //analogRead(JOYSTICK_X);
+  joystick[1] = 0; //analogRead(JOYSTICK_Y);
+  joystick[2] = i; //analogRead(JOYSTICK_L);
+  joystick[3] = i; //analogRead(JOYSTICK_M);
+  
   delay(10);
-  Serial.println(joystick[0]);
-  //radio.write( joystick, sizeof(joystick) );
-  if (!radio.write( joystick, sizeof(joystick) )) {
+  Serial.println(joystick[3]);
+  radio.write(joystick, sizeof(joystick));
+  radio.flush();
+  
+  if (radio.lastTXfailed) {
     Serial.println(F("failed"));
   }
   delay(10);
