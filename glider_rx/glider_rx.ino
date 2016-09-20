@@ -52,7 +52,7 @@ void setup() {
   SPI.setBitOrder(MSBFIRST);
 
 
-  radio.begin(2000000, 100);  // Defaults 1Mbps, channel 0, max TX power
+  radio.begin(250000, 100);  // Defaults 1Mbps, channel 0, max TX power
   radio.setTXpower(0);
   radio.autoAck(false);
   radio.setCRC(true, true);
