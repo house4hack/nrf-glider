@@ -13,7 +13,7 @@
 #include <SPI.h>
 #include "Enrf24.h"
 
-#define TEST        true  // send test pattern
+#define TEST        false  // send test pattern
 
 // most launchpads have a red LED
 #define LED         P2_4 //RED_LED
@@ -24,7 +24,7 @@
 
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01 };
-int joystick[2];
+unsigned char joystick[2];
 int i = 0;
 
 // the setup routine runs once when you press reset:
@@ -43,10 +43,10 @@ void setup() {
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
-  radio.begin(1000000, 100);  // Defaults 1Mbps, channel 0, max TX power
+  radio.begin(2500000, 100);  // Defaults 1Mbps, channel 0, max TX power
   radio.setTXpower(0);
-  radio.autoAck(true);
-  radio.setCRC(true, true);
+  radio.autoAck(false);
+  radio.setCRC(true, false);
   radio.setRXaddress((void*)rxaddr);
   radio.setTXaddress((void*)rxaddr);
 }
@@ -54,13 +54,13 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
   if (TEST) {
-    i += 10;
-    if (i > 1023) i = 0;
+    i += 2;
+    if (i > 255) i = 0;
     joystick[0] = i; //UP_DOWN
     joystick[1] = i; //LEFT_RIGHT
   } else {
-    joystick[0] = analogRead(UP_DOWN); //i; //UP_DOWN
-    joystick[1] = analogRead(LEFT_RIGHT); //i; //LEFT_RIGHT
+    joystick[0] = map(analogRead(UP_DOWN), 0, 1023, 255, 0); //i; //UP_DOWN
+    joystick[1] = map(analogRead(LEFT_RIGHT), 0, 1023, 0, 255); //i; //LEFT_RIGHT
   }
 
   if (TEST) {

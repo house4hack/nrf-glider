@@ -31,7 +31,7 @@ Servo servoelevator;
 
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01 };
-int joystick[2];
+unsigned char joystick[2];
 int i = 0;
 
 // the setup routine runs once when you press reset:
@@ -52,10 +52,10 @@ void setup() {
   SPI.setBitOrder(MSBFIRST);
 
 
-  radio.begin(1000000, 100);  // Defaults 1Mbps, channel 0, max TX power
+  radio.begin(2500000, 100);  // Defaults 1Mbps, channel 0, max TX power
   radio.setTXpower(0);
-  radio.autoAck(true);
-  radio.setCRC(true, true);
+  radio.autoAck(false);
+  radio.setCRC(true, false);
   radio.setRXaddress((void*)rxaddr);
   radio.setTXaddress((void*)rxaddr);
   radio.enableRX();
@@ -91,8 +91,8 @@ void loop() {
       Serial.print(" M = ");
       Serial.print(rudder);
       Serial.println(" ZXN rocks ");
-      aeliron = map(joystick[0], 0, 1023, 0, 179);
-      elevator = map(joystick[1], 0, 1023, 0, 179);
+      aeliron = map(joystick[0], 0, 255, 0, 179);
+      elevator = map(joystick[1], 0, 255, 0, 179);
 
       servoelevator.write(elevator);
       servoaeliron.write(aeliron);
