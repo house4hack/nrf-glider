@@ -13,11 +13,13 @@
 #include <SPI.h>
 #include "Enrf24.h"
 
+#define TEST        true  // send test pattern
+
 // most launchpads have a red LED
 #define LED         P2_4 //RED_LED
 #define BUZZER      P2_3 
-#define LEFT_RIGHT  P1_3
-#define UP_DOWN     P1_1
+#define LEFT_RIGHT  P1_1
+#define UP_DOWN     P1_3
 #define BATTERY     P1_4
 
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
@@ -41,9 +43,9 @@ void setup() {
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
-  radio.begin(250000, 100);  // Defaults 1Mbps, channel 0, max TX power
+  radio.begin(1000000, 100);  // Defaults 1Mbps, channel 0, max TX power
   radio.setTXpower(0);
-  radio.autoAck(false);
+  radio.autoAck(true);
   radio.setCRC(true, true);
   radio.setRXaddress((void*)rxaddr);
   radio.setTXaddress((void*)rxaddr);
@@ -51,41 +53,58 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  i += 10;
-  if (i > 1023) i = 0;
+  if (TEST) {
+    i += 10;
+    if (i > 1023) i = 0;
+    joystick[0] = i; //UP_DOWN
+    joystick[1] = i; //LEFT_RIGHT
+  } else {
+    joystick[0] = analogRead(UP_DOWN); //i; //UP_DOWN
+    joystick[1] = analogRead(LEFT_RIGHT); //i; //LEFT_RIGHT
+  }
 
-  joystick[0] = i; //LEFT_RIGHT
-  joystick[1] = i; //UP_DOWN
+  if (TEST) {
+    Serial.print(joystick[0]);
+    Serial.print(" ");
+    Serial.print(joystick[1]);
+    Serial.print(" ");
+    Serial.print(analogRead(BATTERY));  
+  }
   
-  delay(10);
-  Serial.print(joystick[0]);
   radio.write(joystick, sizeof(joystick));
   radio.flush();
   
   if (radio.lastTXfailed) {
     Serial.println(" X");
-    //digitalWrite(LED, HIGH);
+    digitalWrite(LED, HIGH);
     //digitalWrite(BUZZER, HIGH);
   } else {
     Serial.println("");
     digitalWrite(LED, LOW);
     digitalWrite(BUZZER, LOW);
   }
-  Serial.flush();
-  delay(10);
 
+  // 435 = 3.0V, 915 = 6.35V
+  if (analogRead(BATTERY) < 420) {
+    digitalWrite(BUZZER, HIGH);
+  }
+
+  Serial.flush();
+  delay(20);
+}
+
+void testCode() {  
+  digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
+  //digitalWrite(BUZZER, HIGH);
+  delay(100);               // wait for a second
+
+  Serial.print(analogRead(UP_DOWN), DEC);
+  Serial.print(" ");
+  Serial.print(analogRead(LEFT_RIGHT), DEC);
+  Serial.print(" ");
+  Serial.println(analogRead(BATTERY), DEC);
   
-//  digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
-//  //digitalWrite(BUZZER, HIGH);
-//  delay(100);               // wait for a second
-//
-//  Serial.print(analogRead(UP_DOWN), DEC);
-//  Serial.print(" ");
-//  Serial.print(analogRead(LEFT_RIGHT), DEC);
-//  Serial.print(" ");
-//  Serial.println(analogRead(BATTERY), DEC);
-//  
-//  digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
-//  //digitalWrite(BUZZER, LOW);
-//  delay(100);               // wait for a second
+  digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
+  //digitalWrite(BUZZER, LOW);
+  delay(100);               // wait for a second
 }
