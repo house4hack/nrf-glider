@@ -22,6 +22,10 @@
 #define UP_DOWN     P1_3
 #define BATTERY     P1_4
 
+// Mixing parameters
+#define MAX_FACTOR  40  // 0 - maximum movement, 255 - no movement at all
+#define MIX_FACTOR  40 // ratio of aeleron to elevetor, out of 255
+
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01 };
 unsigned char joystick[2];
@@ -59,8 +63,11 @@ void loop() {
     joystick[0] = i; //UP_DOWN
     joystick[1] = i; //LEFT_RIGHT
   } else {
-    joystick[0] = map(analogRead(UP_DOWN), 0, 1023, 255, 0); //i; //UP_DOWN
-    joystick[1] = map(analogRead(LEFT_RIGHT), 0, 1023, 0, 255); //i; //LEFT_RIGHT
+    int leftRight = map(analogRead(LEFT_RIGHT), 0, 1023, -MIX_FACTOR, MIX_FACTOR);
+    joystick[0] = map(analogRead(UP_DOWN), 0, 1023, 
+      255 - MAX_FACTOR - MIX_FACTOR, MIX_FACTOR + MAX_FACTOR) + leftRight; //i; //UP_DOWN
+    joystick[1] = map(analogRead(UP_DOWN), 0, 1023, 
+      MIX_FACTOR + MAX_FACTOR, 255 - MAX_FACTOR - MIX_FACTOR) + leftRight; //i; //LEFT_RIGHT
   }
 
   if (TEST) {
