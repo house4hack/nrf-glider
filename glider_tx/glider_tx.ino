@@ -23,8 +23,12 @@
 #define BATTERY     P1_4
 
 // Mixing parameters
-#define MAX_FACTOR  40  // 0 - maximum movement, 255 - no movement at all
-#define MIX_FACTOR  40 // ratio of aeleron to elevetor, out of 255
+#define MAX_FACTOR    0  // 0 - maximum movement, 255 - no movement at all
+#define MIX_FACTOR    60 // ratio of aeleron to elevetor, out of 255
+
+// trimming
+#define TRIM_UP_DOWN    -60   // higher -> up, -512 to 512
+#define TRIM_LEFT_RIGHT 7 // higher -> trim to right, -127 to 127
 
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01 };
@@ -64,13 +68,20 @@ void loop() {
     joystick[1] = i; //LEFT_RIGHT
   } else {
     int leftRight = map(analogRead(LEFT_RIGHT), 0, 1023, -MIX_FACTOR, MIX_FACTOR);
-    joystick[0] = map(analogRead(UP_DOWN), 0, 1023, 
+    if (leftRight - TRIM_LEFT_RIGHT >= 0 && leftRight - TRIM_LEFT_RIGHT <= 1023) {
+      leftRight -=  TRIM_LEFT_RIGHT;
+    }
+    
+    int upDown = analogRead(UP_DOWN);
+    if (upDown + TRIM_UP_DOWN <= 1023 && upDown + TRIM_UP_DOWN >= 0) upDown += TRIM_UP_DOWN; 
+
+    joystick[0] = map(upDown, 0, 1023, 
       255 - MAX_FACTOR - MIX_FACTOR, MIX_FACTOR + MAX_FACTOR) + leftRight; //i; //UP_DOWN
-    joystick[1] = map(analogRead(UP_DOWN), 0, 1023, 
+    joystick[1] = map(upDown, 0, 1023, 
       MIX_FACTOR + MAX_FACTOR, 255 - MAX_FACTOR - MIX_FACTOR) + leftRight; //i; //LEFT_RIGHT
   }
 
-  if (TEST) {
+  if (true) {
     Serial.print(joystick[0]);
     Serial.print(" ");
     Serial.print(joystick[1]);
