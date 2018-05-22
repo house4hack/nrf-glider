@@ -1,13 +1,5 @@
 /*
-  Blink
-  The basic Energia example.
-  Turns on an LED on for one second, then off for one second, repeatedly.
-  Change the LED define to blink other LEDs.
-
-  Hardware Required:
-    LaunchPad with an LED
-
-  This example code is in the public domain.
+  NRF Glider receiver code
 */
 
 #include <SPI.h>
