@@ -43,7 +43,7 @@ void setup() {
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
-  radio.begin(2500000, 100);  // Defaults 1Mbps, channel 0, max TX power
+  radio.begin(250000, 100);  // Defaults 1Mbps, channel 0, max TX power
   radio.setTXpower(0);
   radio.autoAck(false);
   radio.setCRC(true, false);
