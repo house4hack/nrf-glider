@@ -125,18 +125,19 @@ void loop() {
   }
   else
   {
-    if (millis() - lastreceived > 50) {
+    if (millis() - lastreceived > 100) {
       if (joystick[0] < JOYSTICK_MID) joystick[0]++;
       if (joystick[0] > JOYSTICK_MID) joystick[0]--;
       if (joystick[1] < JOYSTICK_MID) joystick[1]++;
       if (joystick[1] > JOYSTICK_MID) joystick[1]--;
       writeServoValues();
+      delay(10); // slowly return to midpoint
       
       if (DEBUG) {
         Serial.println("No radio available");
         digitalWrite(LED, HIGH);
       }
-      buzzerOn = true; 
+      //buzzerOn = true; 
     }
   }
 }

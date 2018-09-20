@@ -6,6 +6,7 @@
 #include "Enrf24.h"
 
 #define TEST        false  // send test pattern
+#define DEBUG       false  // serial output
 
 // most launchpads have a red LED
 #define LED         P2_4 //RED_LED
@@ -35,6 +36,8 @@ void setup() {
   pinMode(LEFT_RIGHT, INPUT);
   pinMode(UP_DOWN, INPUT);
 
+  digitalWrite(LED, HIGH);
+
   digitalWrite(BUZZER, LOW);  
   digitalWrite(LED, HIGH);  
   Serial.begin(9600); 
@@ -49,6 +52,9 @@ void setup() {
   radio.setCRC(true, false);
   radio.setRXaddress((void*)rxaddr);
   radio.setTXaddress((void*)rxaddr);
+
+  delay(500);
+  digitalWrite(LED, LOW);
 }
 
 // the loop routine runs over and over again forever:
@@ -73,7 +79,7 @@ void loop() {
       MIX_FACTOR + MAX_FACTOR, 255 - MAX_FACTOR - MIX_FACTOR) + leftRight; //i; //LEFT_RIGHT
   }
 
-  if (true) {
+  if (DEBUG) {
     Serial.print(joystick[0]);
     Serial.print(" ");
     Serial.print(joystick[1]);
@@ -84,23 +90,23 @@ void loop() {
   radio.write(joystick, sizeof(joystick));
   radio.flush();
   
-  if (radio.lastTXfailed) {
-    Serial.println(" X");
-    digitalWrite(LED, HIGH);
-    //digitalWrite(BUZZER, HIGH);
-  } else {
-    Serial.println("");
-    digitalWrite(LED, LOW);
-    digitalWrite(BUZZER, LOW);
-  }
+  // if (radio.lastTXfailed) {
+  //   Serial.println(" X");
+  //   digitalWrite(LED, HIGH);
+  //   //digitalWrite(BUZZER, HIGH);
+  // } else {
+  //   Serial.println("");
+  //   digitalWrite(LED, LOW);
+  //   digitalWrite(BUZZER, LOW);
+  // }
+  //Serial.flush();
 
   // 435 = 3.0V, 915 = 6.35V
-  if (analogRead(BATTERY) < 420) {
+  if (analogRead(BATTERY) < 675) {
     digitalWrite(BUZZER, HIGH);
   }
 
-  Serial.flush();
-  delay(20);
+  delay(10);
 }
 
 void testCode() {  
