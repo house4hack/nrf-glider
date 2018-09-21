@@ -122,7 +122,9 @@ void loop() {
   }
   
   // 435 = 3.0V, 915 = 6.35V
-  if (analogRead(BATTERY) < 675) {
+  if (analogRead(BATTERY) < 675 && // low battery condition
+      analogRead(BATTERY) > 450 // 3.3V during debugging
+      ) {
     digitalWrite(BUZZER, HIGH);
   }
 
