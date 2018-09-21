@@ -9,7 +9,7 @@
 #define DEBUG       false  // serial output
 
 // most launchpads have a red LED
-#define LED         P2_4 //RED_LED
+#define BUTTON      P2_4 // trim button
 #define BUZZER      P2_3 
 #define LEFT_RIGHT  P1_1
 #define UP_DOWN     P1_3
@@ -19,27 +19,28 @@
 #define MAX_FACTOR    0  // 0 - maximum movement, 255 - no movement at all
 #define MIX_FACTOR    60 // ratio of aeleron to elevetor, out of 255
 
-// trimming
-#define TRIM_UP_DOWN    -60   // higher -> up, -512 to 512
-#define TRIM_LEFT_RIGHT 7 // higher -> trim to right, -127 to 127
-
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01 };
 unsigned char joystick[2];
-int i = 0;
+
+int trimUpDown = 0; //-60;
+int trimLeftRight = 0; //7;
+unsigned long trimStart = 0;
+
+int i = 0; // for test code
 
 // the setup routine runs once when you press reset:
 void setup() {                
   // initialize the digital pin as an output.
-  pinMode(LED, OUTPUT);    
+  pinMode(BUTTON, INPUT_PULLUP);
   pinMode(BUZZER, OUTPUT);
   pinMode(LEFT_RIGHT, INPUT);
   pinMode(UP_DOWN, INPUT);
 
-  digitalWrite(LED, HIGH);
-
+  digitalWrite(BUZZER, HIGH);
+  delay(500);
   digitalWrite(BUZZER, LOW);  
-  digitalWrite(LED, HIGH);  
+
   Serial.begin(9600); 
 
   SPI.begin();
@@ -52,9 +53,6 @@ void setup() {
   radio.setCRC(true, false);
   radio.setRXaddress((void*)rxaddr);
   radio.setTXaddress((void*)rxaddr);
-
-  delay(500);
-  digitalWrite(LED, LOW);
 }
 
 // the loop routine runs over and over again forever:
@@ -64,19 +62,53 @@ void loop() {
     if (i > 255) i = 0;
     joystick[0] = i; //UP_DOWN
     joystick[1] = i; //LEFT_RIGHT
+    radio.write(joystick, sizeof(joystick));
+    radio.flush();
   } else {
-    int leftRight = map(analogRead(LEFT_RIGHT), 0, 1023, -MIX_FACTOR, MIX_FACTOR);
-    if (leftRight - TRIM_LEFT_RIGHT >= 0 && leftRight - TRIM_LEFT_RIGHT <= 1023) {
-      leftRight -=  TRIM_LEFT_RIGHT;
-    }
-    
+    int leftRight = analogRead(LEFT_RIGHT);
     int upDown = analogRead(UP_DOWN);
-    if (upDown + TRIM_UP_DOWN <= 1023 && upDown + TRIM_UP_DOWN >= 0) upDown += TRIM_UP_DOWN; 
 
+    // trim control
+    if (digitalRead(BUTTON) == LOW 
+        && millis() - trimStart > 500) {
+      trimStart = millis();
+      trimLeftRight = leftRight - 512;
+      trimUpDown = upDown - 512;
+
+      // give user 2 seconds to return to zero
+      while (millis() - trimStart < 500) {
+        digitalWrite(BUZZER, HIGH);
+        delay(50);
+        radio.write(joystick, sizeof(joystick));
+        radio.flush();
+        digitalWrite(BUZZER, LOW);
+        radio.write(joystick, sizeof(joystick));
+        radio.flush();
+      }
+
+      // now let the joystick take over
+      leftRight = analogRead(LEFT_RIGHT);
+      upDown = analogRead(UP_DOWN);
+    } else {
+      digitalWrite(BUZZER, LOW);
+    }
+
+    leftRight += trimLeftRight;
+    if (leftRight <= 0) leftRight = 0; 
+    if (leftRight > 1023) leftRight = 1023;
+
+    upDown += trimUpDown; 
+    if (upDown <= 0) upDown = 0; 
+    if (upDown > 1023) upDown = 1023;
+
+    leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
     joystick[0] = map(upDown, 0, 1023, 
       255 - MAX_FACTOR - MIX_FACTOR, MIX_FACTOR + MAX_FACTOR) + leftRight; //i; //UP_DOWN
     joystick[1] = map(upDown, 0, 1023, 
       MIX_FACTOR + MAX_FACTOR, 255 - MAX_FACTOR - MIX_FACTOR) + leftRight; //i; //LEFT_RIGHT
+
+    radio.write(joystick, sizeof(joystick));
+    radio.flush();
   }
 
   if (DEBUG) {
@@ -87,30 +119,15 @@ void loop() {
     Serial.print(analogRead(BATTERY));  
   }
   
-  radio.write(joystick, sizeof(joystick));
-  radio.flush();
-  
-  // if (radio.lastTXfailed) {
-  //   Serial.println(" X");
-  //   digitalWrite(LED, HIGH);
-  //   //digitalWrite(BUZZER, HIGH);
-  // } else {
-  //   Serial.println("");
-  //   digitalWrite(LED, LOW);
-  //   digitalWrite(BUZZER, LOW);
-  // }
-  //Serial.flush();
-
   // 435 = 3.0V, 915 = 6.35V
   if (analogRead(BATTERY) < 675) {
-    digitalWrite(BUZZER, HIGH);
+    //digitalWrite(BUZZER, HIGH);
   }
 
   delay(10);
 }
 
 void testCode() {  
-  digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
   //digitalWrite(BUZZER, HIGH);
   delay(100);               // wait for a second
 
@@ -120,7 +137,6 @@ void testCode() {
   Serial.print(" ");
   Serial.println(analogRead(BATTERY), DEC);
   
-  digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
   //digitalWrite(BUZZER, LOW);
   delay(100);               // wait for a second
 }
