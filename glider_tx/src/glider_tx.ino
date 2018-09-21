@@ -69,13 +69,15 @@ void loop() {
     int upDown = analogRead(UP_DOWN);
 
     // trim control
-    if (digitalRead(BUTTON) == LOW 
-        && millis() - trimStart > 500) {
+    if (digitalRead(BUTTON) == LOW // button pressed
+        && millis() - trimStart > 5000 // at least 5s between trims
+        && abs(leftRight - 512) < 256 // don't allow extreme trims
+        && abs(upDown - 512) < 256) {
       trimStart = millis();
       trimLeftRight = leftRight - 512;
       trimUpDown = upDown - 512;
 
-      // give user 2 seconds to return to zero
+      // give user a short time to return to zero
       while (millis() - trimStart < 500) {
         digitalWrite(BUZZER, HIGH);
         delay(50);
@@ -121,7 +123,7 @@ void loop() {
   
   // 435 = 3.0V, 915 = 6.35V
   if (analogRead(BATTERY) < 675) {
-    //digitalWrite(BUZZER, HIGH);
+    digitalWrite(BUZZER, HIGH);
   }
 
   delay(10);
