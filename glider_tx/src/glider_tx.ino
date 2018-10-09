@@ -16,13 +16,15 @@
 #define BATTERY     P1_4
 
 // Mixing parameters
-#define MAX_FACTOR    0  // 0 - maximum movement, 255 - no movement at all
-#define MIX_FACTOR    60 // ratio of aeleron to elevetor, out of 255
+#define MIX_FACTOR    60  // ratio of aeleron to elevetor, out of 255
+#define SENSITIVITY   0.7 // 0 -> 1: min to max sensitivity
 
 Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x01 };
 unsigned char joystick[2];
 
+unsigned int leftRight = 127;
+unsigned int upDown = 127;
 int trimUpDown = 0; //-60;
 int trimLeftRight = 0; //7;
 unsigned long trimStart = 0;
@@ -65,49 +67,18 @@ void loop() {
     radio.write(joystick, sizeof(joystick));
     radio.flush();
   } else {
-    int leftRight = analogRead(LEFT_RIGHT);
-    int upDown = analogRead(UP_DOWN);
+    leftRight = analogRead(LEFT_RIGHT);
+    upDown = analogRead(UP_DOWN);
 
-    // trim control
-    if (digitalRead(BUTTON) == LOW // button pressed
-        && millis() - trimStart > 5000 // at least 5s between trims
-        && abs(leftRight - 512) < 256 // don't allow extreme trims
-        && abs(upDown - 512) < 256) {
-      trimStart = millis();
-      trimLeftRight = leftRight - 512;
-      trimUpDown = upDown - 512;
-
-      // give user a short time to return to zero
-      while (millis() - trimStart < 500) {
-        digitalWrite(BUZZER, HIGH);
-        delay(50);
-        radio.write(joystick, sizeof(joystick));
-        radio.flush();
-        digitalWrite(BUZZER, LOW);
-        radio.write(joystick, sizeof(joystick));
-        radio.flush();
-      }
-
-      // now let the joystick take over
-      leftRight = analogRead(LEFT_RIGHT);
-      upDown = analogRead(UP_DOWN);
-    } else {
-      digitalWrite(BUZZER, LOW);
-    }
-
-    leftRight += trimLeftRight;
-    if (leftRight <= 0) leftRight = 0; 
-    if (leftRight > 1023) leftRight = 1023;
-
-    upDown += trimUpDown; 
-    if (upDown <= 0) upDown = 0; 
-    if (upDown > 1023) upDown = 1023;
+    doTrimControl();
+    leftRight = applySensitivityAndTrim(leftRight, trimLeftRight);
+    upDown = applySensitivityAndTrim(upDown, trimUpDown); 
 
     leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
     joystick[0] = map(upDown, 0, 1023, 
-      255 - MAX_FACTOR - MIX_FACTOR, MIX_FACTOR + MAX_FACTOR) + leftRight; //i; //UP_DOWN
+      255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
     joystick[1] = map(upDown, 0, 1023, 
-      MIX_FACTOR + MAX_FACTOR, 255 - MAX_FACTOR - MIX_FACTOR) + leftRight; //i; //LEFT_RIGHT
+      MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
 
     radio.write(joystick, sizeof(joystick));
     radio.flush();
@@ -129,6 +100,51 @@ void loop() {
   }
 
   delay(10);
+}
+
+void doTrimControl() {
+  // trim control
+  if (digitalRead(BUTTON) == LOW // button pressed
+      && millis() - trimStart > 5000 // at least 5s between trims
+      && abs(leftRight - 512) < 256 // don't allow extreme trims
+      && abs(upDown - 512) < 256) {
+    trimStart = millis();
+    trimLeftRight = leftRight - 512;
+    trimUpDown = upDown - 512;
+
+    // give user a short time to return to zero
+    while (millis() - trimStart < 500) {
+      digitalWrite(BUZZER, HIGH);
+      delay(50);
+      radio.write(joystick, sizeof(joystick));
+      radio.flush();
+      digitalWrite(BUZZER, LOW);
+      radio.write(joystick, sizeof(joystick));
+      radio.flush();
+    }
+
+    // now let the joystick take over
+    leftRight = analogRead(LEFT_RIGHT);
+    upDown = analogRead(UP_DOWN);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+}
+
+unsigned int applySensitivityAndTrim(int input, int trim) {
+  // apply trim level
+  int retVal = input + trim;
+
+  // apply sensitivity in normalized space
+  double normVal = 512 - retVal;
+  normVal = normVal * SENSITIVITY;
+  retVal = 512 + round(normVal);
+
+  // sanity check output values
+  if (retVal < 0) retVal = 0;
+  if (retVal > 1023) retVal = 1023;
+
+  return retVal;
 }
 
 void testCode() {  
