@@ -677,8 +677,6 @@ F 3 "~" V 8800 4210 50  0001 C CNN
 	1    8800 4150
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	8800 3950 9300 3950
 $Comp
 L power:GND #PWR025
 U 1 1 5BD2C87B
@@ -750,15 +748,14 @@ Wire Wire Line
 $Comp
 L power:VDD #PWR024
 U 1 1 5BD2C8A2
-P 8800 3950
-F 0 "#PWR024" H 8800 3800 50  0001 C CNN
-F 1 "VDD" H 8817 4123 50  0000 C CNN
-F 2 "" H 8800 3950 50  0001 C CNN
-F 3 "" H 8800 3950 50  0001 C CNN
-	1    8800 3950
+P 9300 3850
+F 0 "#PWR024" H 9300 3700 50  0001 C CNN
+F 1 "VDD" H 9317 4023 50  0000 C CNN
+F 2 "" H 9300 3850 50  0001 C CNN
+F 3 "" H 9300 3850 50  0001 C CNN
+	1    9300 3850
 	1    0    0    -1  
 $EndComp
-Connection ~ 8800 3950
 Wire Wire Line
 	10450 3950 10450 4000
 Connection ~ 10450 3950
@@ -1123,16 +1120,6 @@ Connection ~ 8500 5700
 Wire Wire Line
 	8500 5700 9050 5700
 Wire Wire Line
-	3950 5950 4200 5950
-Wire Wire Line
-	3550 5950 3950 5950
-Connection ~ 3950 5950
-Connection ~ 3550 6150
-Wire Wire Line
-	3550 6150 3550 5950
-Wire Wire Line
-	3550 6250 3550 6150
-Wire Wire Line
 	3550 6350 1150 6350
 Wire Wire Line
 	1150 6350 1150 4950
@@ -1145,4 +1132,30 @@ Text Notes 8250 7650 0    50   ~ 0
 23 October 2018
 Text Notes 10300 7350 0    50   ~ 0
 created by Toby Kurien
+$Comp
+L Switch:SW_SPST SW?
+U 1 1 5BD0D3D1
+P 9000 3950
+F 0 "SW?" H 9000 4185 50  0000 C CNN
+F 1 "SW_SPST" H 9000 4094 50  0000 C CNN
+F 2 "" H 9000 3950 50  0001 C CNN
+F 3 "" H 9000 3950 50  0001 C CNN
+	1    9000 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 3950 9300 3950
+Wire Wire Line
+	9300 3850 9300 3950
+Connection ~ 9300 3950
+Wire Wire Line
+	3550 6250 3550 6150
+Wire Wire Line
+	3550 6150 3550 5950
+Connection ~ 3550 6150
+Connection ~ 3950 5950
+Wire Wire Line
+	3550 5950 3950 5950
+Wire Wire Line
+	3950 5950 4200 5950
 $EndSCHEMATC
