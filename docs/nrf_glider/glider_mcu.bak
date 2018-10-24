@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 3
+Sheet 1 5
 Title ""
 Date ""
 Rev ""
@@ -18,6 +18,8 @@ $Comp
 L RF:NRF24L01_Breakout U?
 U 1 1 5BCECC43
 P 5350 2300
+AR Path="/5BD3906D/5BCECC43" Ref="U?"  Part="1" 
+AR Path="/5BD39338/5BCECC43" Ref="U?"  Part="1" 
 F 0 "U?" H 5828 2278 50  0000 L CNN
 F 1 "NRF24L01_Breakout" H 5828 2187 50  0000 L CNN
 F 2 "RF_Module:nRF24L01_Breakout" H 5500 2900 50  0001 L CIN
@@ -29,6 +31,8 @@ $Comp
 L MCU_Texas_MSP430:MSP430G2553IPW20 U?
 U 1 1 5BCECD91
 P 2850 3900
+AR Path="/5BD3906D/5BCECD91" Ref="U?"  Part="1" 
+AR Path="/5BD39338/5BCECD91" Ref="U?"  Part="1" 
 F 0 "U?" H 2850 4878 50  0000 C CNN
 F 1 "MSP430G2553IPW20" H 2850 4787 50  0000 C CNN
 F 2 "Package_DIP:DIP-20_W7.62mm" H 1400 3350 50  0001 C CIN
@@ -40,6 +44,8 @@ $Comp
 L Memory_EEPROM:25LCxxx U?
 U 1 1 5BCED472
 P 3950 6250
+AR Path="/5BD3906D/5BCED472" Ref="U?"  Part="1" 
+AR Path="/5BD39338/5BCED472" Ref="U?"  Part="1" 
 F 0 "U?" H 3950 6728 50  0000 C CNN
 F 1 "25LC640" H 3950 6637 50  0000 C CNN
 F 2 "Package_DIP:DIP-8_W7.62mm" H 3950 6250 50  0001 C CNN
@@ -87,6 +93,8 @@ $Comp
 L power:VCC #PWR?
 U 1 1 5BCEF2DA
 P 5350 1700
+AR Path="/5BD3906D/5BCEF2DA" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCEF2DA" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 5350 1550 50  0001 C CNN
 F 1 "VCC" H 5367 1873 50  0000 C CNN
 F 2 "" H 5350 1700 50  0001 C CNN
@@ -98,6 +106,8 @@ $Comp
 L power:GND #PWR?
 U 1 1 5BCEF357
 P 5350 2900
+AR Path="/5BD3906D/5BCEF357" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCEF357" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 5350 2650 50  0001 C CNN
 F 1 "GND" H 5355 2727 50  0000 C CNN
 F 2 "" H 5350 2900 50  0001 C CNN
@@ -109,6 +119,8 @@ $Comp
 L power:GND #PWR?
 U 1 1 5BCEF4A1
 P 3950 6550
+AR Path="/5BD3906D/5BCEF4A1" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCEF4A1" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 3950 6300 50  0001 C CNN
 F 1 "GND" H 3955 6377 50  0000 C CNN
 F 2 "" H 3950 6550 50  0001 C CNN
@@ -120,6 +132,8 @@ $Comp
 L power:GND #PWR?
 U 1 1 5BCEF4DF
 P 2850 4650
+AR Path="/5BD3906D/5BCEF4DF" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCEF4DF" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 2850 4400 50  0001 C CNN
 F 1 "GND" H 2855 4477 50  0000 C CNN
 F 2 "" H 2850 4650 50  0001 C CNN
@@ -131,6 +145,8 @@ $Comp
 L power:VCC #PWR?
 U 1 1 5BCEF55C
 P 2200 3000
+AR Path="/5BD3906D/5BCEF55C" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCEF55C" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 2200 2850 50  0001 C CNN
 F 1 "VCC" H 2217 3173 50  0000 C CNN
 F 2 "" H 2200 3000 50  0001 C CNN
@@ -142,6 +158,8 @@ $Comp
 L power:VCC #PWR?
 U 1 1 5BCEF5D9
 P 4200 5950
+AR Path="/5BD3906D/5BCEF5D9" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCEF5D9" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 4200 5800 50  0001 C CNN
 F 1 "VCC" H 4217 6123 50  0000 C CNN
 F 2 "" H 4200 5950 50  0001 C CNN
@@ -178,6 +196,8 @@ $Comp
 L Device:R R?
 U 1 1 5BCF4A41
 P 6000 3400
+AR Path="/5BD3906D/5BCF4A41" Ref="R?"  Part="1" 
+AR Path="/5BD39338/5BCF4A41" Ref="R?"  Part="1" 
 F 0 "R?" H 6070 3446 50  0000 L CNN
 F 1 "20k" H 6070 3355 50  0000 L CNN
 F 2 "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal" V 5930 3400 50  0001 C CNN
@@ -189,6 +209,8 @@ $Comp
 L Device:R R?
 U 1 1 5BCF4AC6
 P 6000 3700
+AR Path="/5BD3906D/5BCF4AC6" Ref="R?"  Part="1" 
+AR Path="/5BD39338/5BCF4AC6" Ref="R?"  Part="1" 
 F 0 "R?" H 6070 3746 50  0000 L CNN
 F 1 "10k" H 6070 3655 50  0000 L CNN
 F 2 "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal" V 5930 3700 50  0001 C CNN
@@ -200,6 +222,8 @@ $Comp
 L power:GND #PWR?
 U 1 1 5BCF4B6F
 P 6000 3850
+AR Path="/5BD3906D/5BCF4B6F" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCF4B6F" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 6000 3600 50  0001 C CNN
 F 1 "GND" H 6005 3677 50  0000 C CNN
 F 2 "" H 6000 3850 50  0001 C CNN
@@ -218,6 +242,8 @@ $Comp
 L power:VDD #PWR?
 U 1 1 5BCF63D1
 P 6000 3250
+AR Path="/5BD3906D/5BCF63D1" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCF63D1" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 6000 3100 50  0001 C CNN
 F 1 "VDD" H 6017 3423 50  0000 C CNN
 F 2 "" H 6000 3250 50  0001 C CNN
@@ -229,6 +255,8 @@ $Comp
 L Connector:Conn_01x12_Male J?
 U 1 1 5BCFA9FB
 P 6250 5000
+AR Path="/5BD3906D/5BCFA9FB" Ref="J?"  Part="1" 
+AR Path="/5BD39338/5BCFA9FB" Ref="J?"  Part="1" 
 F 0 "J?" H 6350 4200 50  0000 R CNN
 F 1 "Conn_01x12_Male" H 6350 4100 50  0000 R CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 6250 5000 50  0001 C CNN
@@ -240,6 +268,8 @@ $Comp
 L power:VDD #PWR?
 U 1 1 5BCFAD35
 P 5950 4500
+AR Path="/5BD3906D/5BCFAD35" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCFAD35" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 5950 4350 50  0001 C CNN
 F 1 "VDD" H 5967 4673 50  0000 C CNN
 F 2 "" H 5950 4500 50  0001 C CNN
@@ -253,6 +283,8 @@ $Comp
 L power:VCC #PWR?
 U 1 1 5BCFB594
 P 5800 4600
+AR Path="/5BD3906D/5BCFB594" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCFB594" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 5800 4450 50  0001 C CNN
 F 1 "VCC" H 5817 4773 50  0000 C CNN
 F 2 "" H 5800 4600 50  0001 C CNN
@@ -266,6 +298,8 @@ $Comp
 L power:GND #PWR?
 U 1 1 5BCFBE51
 P 5950 5600
+AR Path="/5BD3906D/5BCFBE51" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BCFBE51" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 5950 5350 50  0001 C CNN
 F 1 "GND" H 5955 5427 50  0000 C CNN
 F 2 "" H 5950 5600 50  0001 C CNN
@@ -347,6 +381,8 @@ $Comp
 L Connector:Conn_01x06_Male J?
 U 1 1 5BD41D4E
 P 6150 1050
+AR Path="/5BD3906D/5BD41D4E" Ref="J?"  Part="1" 
+AR Path="/5BD39338/5BD41D4E" Ref="J?"  Part="1" 
 F 0 "J?" H 6250 650 50  0000 R CNN
 F 1 "PROG" H 6250 550 50  0000 R CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 6150 1050 50  0001 C CNN
@@ -358,6 +394,8 @@ $Comp
 L power:VCC #PWR?
 U 1 1 5BD421B2
 P 5750 850
+AR Path="/5BD3906D/5BD421B2" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BD421B2" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 5750 700 50  0001 C CNN
 F 1 "VCC" H 5767 1023 50  0000 C CNN
 F 2 "" H 5750 850 50  0001 C CNN
@@ -371,6 +409,8 @@ $Comp
 L power:GND #PWR?
 U 1 1 5BD44828
 P 5750 1350
+AR Path="/5BD3906D/5BD44828" Ref="#PWR?"  Part="1" 
+AR Path="/5BD39338/5BD44828" Ref="#PWR?"  Part="1" 
 F 0 "#PWR?" H 5750 1100 50  0001 C CNN
 F 1 "GND" H 5755 1177 50  0000 C CNN
 F 2 "" H 5750 1350 50  0001 C CNN
@@ -404,28 +444,6 @@ Wire Wire Line
 Connection ~ 4800 3600
 Wire Wire Line
 	4800 3600 5650 3600
-Text Notes 6300 4550 0    50   ~ 0
-Vbatt\n
-Text Notes 6300 4650 0    50   ~ 0
-3v3
-Text Notes 6300 4750 0    50   ~ 0
-A0/PWM0
-Text Notes 6300 4850 0    50   ~ 0
-RX/A1/PWM1
-Text Notes 6300 4950 0    50   ~ 0
-TX/A2/PWM2
-Text Notes 6300 5050 0    50   ~ 0
-A3/PWM3
-Text Notes 6300 5150 0    50   ~ 0
-IO0*
-Text Notes 6300 5250 0    50   ~ 0
-IO1
-Text Notes 6300 5350 0    50   ~ 0
-IO2
-Text Notes 6300 5450 0    50   ~ 0
-IO3
-Text Notes 6300 5550 0    50   ~ 0
-IO4
 Text Notes 6200 900  0    50   ~ 0
 3V3
 Text Notes 6200 1000 0    50   ~ 0
@@ -437,8 +455,6 @@ RX
 Text Notes 6200 1300 0    50   ~ 0
 TX
 Text Notes 6200 1400 0    50   ~ 0
-GND
-Text Notes 6300 5650 0    50   ~ 0
 GND
 Wire Wire Line
 	3550 6350 1150 6350
@@ -463,4 +479,28 @@ Wire Wire Line
 	3550 5950 3950 5950
 Wire Wire Line
 	3950 5950 4200 5950
+Text HLabel 6250 4500 2    50   Input ~ 0
+Vbatt
+Text HLabel 6250 4600 2    50   Input ~ 0
+3V3
+Text HLabel 6250 4700 2    50   BiDi ~ 0
+A0
+Text HLabel 6250 4800 2    50   BiDi ~ 0
+A1.RX
+Text HLabel 6250 4900 2    50   BiDi ~ 0
+A2.TX
+Text HLabel 6250 5000 2    50   BiDi ~ 0
+A3
+Text HLabel 6250 5100 2    50   BiDi ~ 0
+IO0
+Text HLabel 6250 5200 2    50   BiDi ~ 0
+IO1
+Text HLabel 6250 5300 2    50   BiDi ~ 0
+IO2
+Text HLabel 6250 5400 2    50   BiDi ~ 0
+IO3
+Text HLabel 6250 5500 2    50   BiDi ~ 0
+IO4
+Text HLabel 6250 5600 2    50   Input ~ 0
+GND
 $EndSCHEMATC
