@@ -1120,16 +1120,6 @@ Connection ~ 8500 5700
 Wire Wire Line
 	8500 5700 9050 5700
 Wire Wire Line
-	3950 5950 4200 5950
-Wire Wire Line
-	3550 5950 3950 5950
-Connection ~ 3950 5950
-Connection ~ 3550 6150
-Wire Wire Line
-	3550 6150 3550 5950
-Wire Wire Line
-	3550 6250 3550 6150
-Wire Wire Line
 	3550 6350 1150 6350
 Wire Wire Line
 	1150 6350 1150 4950
@@ -1158,4 +1148,14 @@ Wire Wire Line
 Wire Wire Line
 	9300 3850 9300 3950
 Connection ~ 9300 3950
+Wire Wire Line
+	3550 6250 3550 6150
+Wire Wire Line
+	3550 6150 3550 5950
+Connection ~ 3550 6150
+Connection ~ 3950 5950
+Wire Wire Line
+	3550 5950 3950 5950
+Wire Wire Line
+	3950 5950 4200 5950
 $EndSCHEMATC
