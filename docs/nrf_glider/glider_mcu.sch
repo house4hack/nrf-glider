@@ -1,10 +1,10 @@
 EESchema Schematic File Version 4
-LIBS:nrf_glider-cache
+LIBS:glider_mcu-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 5
+Sheet 1 1
 Title ""
 Date ""
 Rev ""
@@ -46,6 +46,7 @@ U 1 1 5BCED472
 P 3950 6250
 AR Path="/5BD3906D/5BCED472" Ref="U2"  Part="1" 
 AR Path="/5BD39338/5BCED472" Ref="U7"  Part="1" 
+AR Path="/5BCED472" Ref="U7"  Part="1" 
 F 0 "U7" H 3950 6728 50  0000 C CNN
 F 1 "25LC640" H 3950 6637 50  0000 C CNN
 F 2 "Package_DIP:DIP-8_W7.62mm" H 3950 6250 50  0001 C CNN
@@ -469,16 +470,6 @@ Text Notes 8250 7650 0    50   ~ 0
 23 October 2018
 Text Notes 10300 7350 0    50   ~ 0
 created by Toby Kurien
-Wire Wire Line
-	3550 6250 3550 6150
-Wire Wire Line
-	3550 6150 3550 5950
-Connection ~ 3550 6150
-Connection ~ 3950 5950
-Wire Wire Line
-	3550 5950 3950 5950
-Wire Wire Line
-	3950 5950 4200 5950
 Text HLabel 6250 4500 2    50   Input ~ 0
 Vbatt
 Text HLabel 6250 4600 2    50   Input ~ 0
@@ -503,4 +494,20 @@ Text HLabel 6250 5500 2    50   BiDi ~ 0
 IO4
 Text HLabel 6250 5600 2    50   Input ~ 0
 GND
+Wire Wire Line
+	3950 5950 4200 5950
+Wire Wire Line
+	3950 6550 3450 6550
+Wire Wire Line
+	3450 6550 3450 6150
+Wire Wire Line
+	3450 6150 3550 6150
+Connection ~ 3950 6550
+Wire Wire Line
+	3550 6250 3500 6250
+Wire Wire Line
+	3500 6250 3500 5950
+Wire Wire Line
+	3500 5950 3950 5950
+Connection ~ 3950 5950
 $EndSCHEMATC
