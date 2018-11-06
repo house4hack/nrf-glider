@@ -349,18 +349,16 @@ Wire Wire Line
 Wire Wire Line
 	4600 3700 5550 3700
 Wire Wire Line
-	4800 1250 5950 1250
-Wire Wire Line
 	4550 3500 5700 3500
 Text Notes 6200 900  0    50   ~ 0
 3V3
-Text Notes 6200 1000 0    50   ~ 0
-TEST
-Text Notes 6200 1100 0    50   ~ 0
-RESET
 Text Notes 6200 1200 0    50   ~ 0
-RX
+TEST
 Text Notes 6200 1300 0    50   ~ 0
+RESET
+Text Notes 6200 1000 0    50   ~ 0
+RX
+Text Notes 6200 1100 0    50   ~ 0
 TX
 Text Notes 6200 1400 0    50   ~ 0
 GND
@@ -510,28 +508,16 @@ Wire Wire Line
 Wire Wire Line
 	4550 3350 4800 3350
 Wire Wire Line
-	4800 3350 4800 1250
-Wire Wire Line
 	1000 3900 1000 5050
 Wire Wire Line
 	4550 3600 5650 3600
 Wire Wire Line
 	5850 3600 5850 950 
 Wire Wire Line
-	5850 950  5950 950 
-Wire Wire Line
 	5650 4800 5650 3600
 Connection ~ 5650 3600
 Wire Wire Line
 	5650 3600 5850 3600
-Wire Wire Line
-	1150 1150 1150 3450
-Wire Wire Line
-	1150 1150 5950 1150
-Wire Wire Line
-	4600 3700 4600 1050
-Wire Wire Line
-	4600 1050 5950 1050
 Wire Wire Line
 	4550 3700 4600 3700
 Connection ~ 4600 3700
@@ -541,4 +527,18 @@ Wire Wire Line
 	4750 2000 4750 4200
 Wire Wire Line
 	4850 2100 4700 2100
+Wire Wire Line
+	4600 3700 4600 1050
+Wire Wire Line
+	4600 1050 5950 1050
+Wire Wire Line
+	5850 950  5950 950 
+Wire Wire Line
+	4800 1150 4800 3350
+Wire Wire Line
+	4800 1150 5950 1150
+Wire Wire Line
+	5950 1250 1150 1250
+Wire Wire Line
+	1150 1250 1150 3450
 $EndSCHEMATC
