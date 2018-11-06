@@ -55,17 +55,9 @@ F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21832H.pdf" H 3950 6250 50 
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4550 4100 4700 4100
-Wire Wire Line
-	4700 4100 4700 2000
-Wire Wire Line
 	4700 2000 4850 2000
 Wire Wire Line
 	4850 2100 4750 2100
-Wire Wire Line
-	4750 2100 4750 4200
-Wire Wire Line
-	4750 4200 4550 4200
 Wire Wire Line
 	4850 2200 4650 2200
 Wire Wire Line
@@ -184,15 +176,9 @@ Wire Wire Line
 Wire Wire Line
 	5000 6250 5000 4200
 Wire Wire Line
-	5000 4200 4750 4200
-Connection ~ 4750 4200
-Wire Wire Line
 	4350 6350 4950 6350
 Wire Wire Line
 	4950 6350 4950 4100
-Wire Wire Line
-	4950 4100 4700 4100
-Connection ~ 4700 4100
 $Comp
 L Device:R R1
 U 1 1 5BCF4A41
@@ -510,4 +496,18 @@ Wire Wire Line
 Wire Wire Line
 	3500 5950 3950 5950
 Connection ~ 3950 5950
+Wire Wire Line
+	4550 4100 4750 4100
+Wire Wire Line
+	4550 4200 4700 4200
+Wire Wire Line
+	4750 2100 4750 4100
+Connection ~ 4750 4100
+Wire Wire Line
+	4750 4100 4950 4100
+Wire Wire Line
+	4700 2000 4700 4200
+Connection ~ 4700 4200
+Wire Wire Line
+	4700 4200 5000 4200
 $EndSCHEMATC
