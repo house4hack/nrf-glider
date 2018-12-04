@@ -16,13 +16,23 @@ Servo servoelevator;
 
 #define DEBUG false
 
-// most launchpads have a red LED
-#define LED P1_3 //RED_LED
-#define BUZZER P2_3
-#define LEFT_RIGHT P2_4
-#define UP_DOWN P2_5
+// hardware connections
+#ifdef VERSION1
+  #define CHANNEL     100
+  #define BUZZER      P2_3
+  #define LEFT_RIGHT  P2_4
+  #define UP_DOWN     P2_5
+  #define BATTERY     P1_4
+  Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
+#else
+  #define CHANNEL     110
+  #define BUZZER      P2_0
+  #define LEFT_RIGHT  P1_0
+  #define UP_DOWN     P1_3
+  #define BATTERY     P1_4
+  Enrf24 radio(P2_6, P2_7, P2_5); // CE, CSN, IRQ
+#endif
 
-#define BATTERY P1_4
 #define BATTERY_LOW 550
 
 #define SERVO_MAX 140
@@ -44,15 +54,12 @@ boolean buzzerState = false;
 void setup()
 {
   // initialize the digital pin as an output.
-  pinMode(LED, OUTPUT);
   pinMode(BUZZER, OUTPUT);
   pinMode(LEFT_RIGHT, OUTPUT);
   pinMode(UP_DOWN, OUTPUT);
 
-  digitalWrite(LED, HIGH);
   digitalWrite(BUZZER, HIGH);
   delay(500);
-  digitalWrite(LED, LOW);
   digitalWrite(BUZZER, LOW);
 
   Serial.begin(9600);
@@ -61,7 +68,7 @@ void setup()
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
-  radio.begin(250000, 100); // Defaults 1Mbps, channel 0, max TX power
+  radio.begin(250000, CHANNEL);
   radio.setTXpower(0);
   radio.autoAck(false);
   radio.setCRC(true, false);
@@ -71,7 +78,6 @@ void setup()
 
   servoelevator.attach(UP_DOWN);
   servoaeliron.attach(LEFT_RIGHT);
-  //Serial.println("asdf");
 }
 
 // the loop routine runs over and over again forever:
@@ -101,7 +107,6 @@ void loop()
   {
     lastreceived = millis();
     buzzerOn = false;
-    digitalWrite(LED, LOW);
     digitalWrite(BUZZER, LOW);
 
     // Read the data payload until we’ve received everything
