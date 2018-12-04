@@ -9,17 +9,29 @@
 #define DEBUG       false  // serial output
 
 // Default parameters if flash has no data
-#define CHANNEL     100    // default channel if not in flash
+#ifdef VERSION1
+  #define CHANNEL     100    // default channel if not in flash
+#else
+  #define CHANNEL     110    // default channel if not in flash
+#endif
 
 #define flash        SEGMENT_D // four segments, segment A read-only
 #define CHECK_BYTE  0xA1  // indicates if flash has valid data
 
 // hardware connections
-#define TRIM_BUTTON P2_4
-#define BUZZER      P2_3 
-#define LEFT_RIGHT  P1_1
-#define UP_DOWN     P1_3
-#define BATTERY     P1_4
+#ifdef VERSION1
+  #define TRIM_BUTTON P2_4
+  #define BUZZER      P2_3 
+  #define LEFT_RIGHT  P1_1
+  #define UP_DOWN     P1_3
+  #define BATTERY     P1_4
+#else
+  #define TRIM_BUTTON P2_1
+  #define BUZZER      P2_0 
+  #define LEFT_RIGHT  P1_0
+  #define UP_DOWN     P1_3
+  #define BATTERY     P1_4
+#endif
 
 // Hard-coded parameters
 #define MIX_FACTOR      60  // ratio of aeleron to elevetor, out of 255
