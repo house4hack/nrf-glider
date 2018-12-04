@@ -1,10 +1,10 @@
 EESchema Schematic File Version 4
-LIBS:glider_mcu-cache
+LIBS:nrf_glider-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 1
+Sheet 1 5
 Title ""
 Date ""
 Rev ""
@@ -15,13 +15,13 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L RF:NRF24L01_Breakout U?
+L RF:NRF24L01_Breakout U3
 U 1 1 5BCECC43
 P 5350 2300
-AR Path="/5BD3906D/5BCECC43" Ref="U?"  Part="1" 
-AR Path="/5BD39338/5BCECC43" Ref="U?"  Part="1" 
-AR Path="/5BCECC43" Ref="U3"  Part="1" 
-F 0 "U3" H 5828 2278 50  0000 L CNN
+AR Path="/5BD3906D/5BCECC43" Ref="U3"  Part="1" 
+AR Path="/5BD39338/5BCECC43" Ref="U8"  Part="1" 
+AR Path="/5BCECC43" Ref="U?"  Part="1" 
+F 0 "U8" H 5828 2278 50  0000 L CNN
 F 1 "NRF24L01_Breakout" H 5828 2187 50  0000 L CNN
 F 2 "RF_Module:nRF24L01_Breakout" H 5500 2900 50  0001 L CIN
 F 3 "http://www.nordicsemi.com/eng/content/download/2730/34105/file/nRF24L01_Product_Specification_v2_0.pdf" H 5350 2200 50  0001 C CNN
@@ -29,13 +29,13 @@ F 3 "http://www.nordicsemi.com/eng/content/download/2730/34105/file/nRF24L01_Pro
 	1    0    0    -1  
 $EndComp
 $Comp
-L MCU_Texas_MSP430:MSP430G2553IPW20 U?
+L MCU_Texas_MSP430:MSP430G2553IPW20 U1
 U 1 1 5BCECD91
 P 2850 3900
-AR Path="/5BD3906D/5BCECD91" Ref="U?"  Part="1" 
-AR Path="/5BD39338/5BCECD91" Ref="U?"  Part="1" 
-AR Path="/5BCECD91" Ref="U1"  Part="1" 
-F 0 "U1" H 2850 4878 50  0000 C CNN
+AR Path="/5BD3906D/5BCECD91" Ref="U1"  Part="1" 
+AR Path="/5BD39338/5BCECD91" Ref="U6"  Part="1" 
+AR Path="/5BCECD91" Ref="U?"  Part="1" 
+F 0 "U6" H 2850 4878 50  0000 C CNN
 F 1 "MSP430G2553IPW20" H 2850 4787 50  0000 C CNN
 F 2 "Package_DIP:DIP-20_W7.62mm" H 1400 3350 50  0001 C CIN
 F 3 "http://www.ti.com/lit/ds/symlink/msp430g2553.pdf" H 2800 3900 50  0001 C CNN
@@ -43,13 +43,13 @@ F 3 "http://www.ti.com/lit/ds/symlink/msp430g2553.pdf" H 2800 3900 50  0001 C CN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Memory_EEPROM:25LCxxx U?
+L Memory_EEPROM:25LCxxx U2
 U 1 1 5BCED472
 P 3950 6250
-AR Path="/5BD3906D/5BCED472" Ref="U?"  Part="1" 
-AR Path="/5BD39338/5BCED472" Ref="U?"  Part="1" 
-AR Path="/5BCED472" Ref="U2"  Part="1" 
-F 0 "U2" H 3950 6728 50  0000 C CNN
+AR Path="/5BD3906D/5BCED472" Ref="U2"  Part="1" 
+AR Path="/5BD39338/5BCED472" Ref="U7"  Part="1" 
+AR Path="/5BCED472" Ref="U?"  Part="1" 
+F 0 "U7" H 3950 6728 50  0000 C CNN
 F 1 "25LC640" H 3950 6637 50  0000 C CNN
 F 2 "Package_DIP:DIP-8_W7.62mm" H 3950 6250 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21832H.pdf" H 3950 6250 50  0001 C CNN
@@ -71,13 +71,13 @@ Wire Wire Line
 Wire Wire Line
 	1100 3800 1150 3800
 $Comp
-L power:VCC #PWR?
+L power:VCC #PWR05
 U 1 1 5BCEF2DA
 P 5350 1700
-AR Path="/5BD3906D/5BCEF2DA" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCEF2DA" Ref="#PWR?"  Part="1" 
-AR Path="/5BCEF2DA" Ref="#PWR05"  Part="1" 
-F 0 "#PWR05" H 5350 1550 50  0001 C CNN
+AR Path="/5BD3906D/5BCEF2DA" Ref="#PWR05"  Part="1" 
+AR Path="/5BD39338/5BCEF2DA" Ref="#PWR045"  Part="1" 
+AR Path="/5BCEF2DA" Ref="#PWR?"  Part="1" 
+F 0 "#PWR045" H 5350 1550 50  0001 C CNN
 F 1 "VCC" H 5367 1873 50  0000 C CNN
 F 2 "" H 5350 1700 50  0001 C CNN
 F 3 "" H 5350 1700 50  0001 C CNN
@@ -85,13 +85,13 @@ F 3 "" H 5350 1700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR06
 U 1 1 5BCEF357
 P 5350 2900
-AR Path="/5BD3906D/5BCEF357" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCEF357" Ref="#PWR?"  Part="1" 
-AR Path="/5BCEF357" Ref="#PWR06"  Part="1" 
-F 0 "#PWR06" H 5350 2650 50  0001 C CNN
+AR Path="/5BD3906D/5BCEF357" Ref="#PWR06"  Part="1" 
+AR Path="/5BD39338/5BCEF357" Ref="#PWR046"  Part="1" 
+AR Path="/5BCEF357" Ref="#PWR?"  Part="1" 
+F 0 "#PWR046" H 5350 2650 50  0001 C CNN
 F 1 "GND" H 5355 2727 50  0000 C CNN
 F 2 "" H 5350 2900 50  0001 C CNN
 F 3 "" H 5350 2900 50  0001 C CNN
@@ -99,13 +99,13 @@ F 3 "" H 5350 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR03
 U 1 1 5BCEF4A1
 P 3950 6600
-AR Path="/5BD3906D/5BCEF4A1" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCEF4A1" Ref="#PWR?"  Part="1" 
-AR Path="/5BCEF4A1" Ref="#PWR03"  Part="1" 
-F 0 "#PWR03" H 3950 6350 50  0001 C CNN
+AR Path="/5BD3906D/5BCEF4A1" Ref="#PWR03"  Part="1" 
+AR Path="/5BD39338/5BCEF4A1" Ref="#PWR043"  Part="1" 
+AR Path="/5BCEF4A1" Ref="#PWR?"  Part="1" 
+F 0 "#PWR043" H 3950 6350 50  0001 C CNN
 F 1 "GND" H 3955 6427 50  0000 C CNN
 F 2 "" H 3950 6600 50  0001 C CNN
 F 3 "" H 3950 6600 50  0001 C CNN
@@ -113,13 +113,13 @@ F 3 "" H 3950 6600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR02
 U 1 1 5BCEF4DF
 P 2850 4700
-AR Path="/5BD3906D/5BCEF4DF" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCEF4DF" Ref="#PWR?"  Part="1" 
-AR Path="/5BCEF4DF" Ref="#PWR02"  Part="1" 
-F 0 "#PWR02" H 2850 4450 50  0001 C CNN
+AR Path="/5BD3906D/5BCEF4DF" Ref="#PWR02"  Part="1" 
+AR Path="/5BD39338/5BCEF4DF" Ref="#PWR042"  Part="1" 
+AR Path="/5BCEF4DF" Ref="#PWR?"  Part="1" 
+F 0 "#PWR042" H 2850 4450 50  0001 C CNN
 F 1 "GND" H 2855 4527 50  0000 C CNN
 F 2 "" H 2850 4700 50  0001 C CNN
 F 3 "" H 2850 4700 50  0001 C CNN
@@ -127,13 +127,13 @@ F 3 "" H 2850 4700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR?
+L power:VCC #PWR01
 U 1 1 5BCEF55C
 P 2200 3000
-AR Path="/5BD3906D/5BCEF55C" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCEF55C" Ref="#PWR?"  Part="1" 
-AR Path="/5BCEF55C" Ref="#PWR01"  Part="1" 
-F 0 "#PWR01" H 2200 2850 50  0001 C CNN
+AR Path="/5BD3906D/5BCEF55C" Ref="#PWR01"  Part="1" 
+AR Path="/5BD39338/5BCEF55C" Ref="#PWR041"  Part="1" 
+AR Path="/5BCEF55C" Ref="#PWR?"  Part="1" 
+F 0 "#PWR041" H 2200 2850 50  0001 C CNN
 F 1 "VCC" H 2217 3173 50  0000 C CNN
 F 2 "" H 2200 3000 50  0001 C CNN
 F 3 "" H 2200 3000 50  0001 C CNN
@@ -141,13 +141,13 @@ F 3 "" H 2200 3000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR?
+L power:VCC #PWR04
 U 1 1 5BCEF5D9
 P 4200 5950
-AR Path="/5BD3906D/5BCEF5D9" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCEF5D9" Ref="#PWR?"  Part="1" 
-AR Path="/5BCEF5D9" Ref="#PWR04"  Part="1" 
-F 0 "#PWR04" H 4200 5800 50  0001 C CNN
+AR Path="/5BD3906D/5BCEF5D9" Ref="#PWR04"  Part="1" 
+AR Path="/5BD39338/5BCEF5D9" Ref="#PWR044"  Part="1" 
+AR Path="/5BCEF5D9" Ref="#PWR?"  Part="1" 
+F 0 "#PWR044" H 4200 5800 50  0001 C CNN
 F 1 "VCC" H 4217 6123 50  0000 C CNN
 F 2 "" H 4200 5950 50  0001 C CNN
 F 3 "" H 4200 5950 50  0001 C CNN
@@ -180,13 +180,13 @@ Wire Wire Line
 	4950 4100 4700 4100
 Connection ~ 4700 4100
 $Comp
-L Device:R R?
+L Device:R R1
 U 1 1 5BCF4A41
 P 6000 3400
-AR Path="/5BD3906D/5BCF4A41" Ref="R?"  Part="1" 
-AR Path="/5BD39338/5BCF4A41" Ref="R?"  Part="1" 
-AR Path="/5BCF4A41" Ref="R1"  Part="1" 
-F 0 "R1" H 6070 3446 50  0000 L CNN
+AR Path="/5BD3906D/5BCF4A41" Ref="R1"  Part="1" 
+AR Path="/5BD39338/5BCF4A41" Ref="R4"  Part="1" 
+AR Path="/5BCF4A41" Ref="R?"  Part="1" 
+F 0 "R4" H 6070 3446 50  0000 L CNN
 F 1 "20k" H 6070 3355 50  0000 L CNN
 F 2 "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P20.32mm_Horizontal" V 5930 3400 50  0001 C CNN
 F 3 "~" H 6000 3400 50  0001 C CNN
@@ -194,13 +194,13 @@ F 3 "~" H 6000 3400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R?
+L Device:R R2
 U 1 1 5BCF4AC6
 P 6000 3700
-AR Path="/5BD3906D/5BCF4AC6" Ref="R?"  Part="1" 
-AR Path="/5BD39338/5BCF4AC6" Ref="R?"  Part="1" 
-AR Path="/5BCF4AC6" Ref="R2"  Part="1" 
-F 0 "R2" H 6070 3746 50  0000 L CNN
+AR Path="/5BD3906D/5BCF4AC6" Ref="R2"  Part="1" 
+AR Path="/5BD39338/5BCF4AC6" Ref="R5"  Part="1" 
+AR Path="/5BCF4AC6" Ref="R?"  Part="1" 
+F 0 "R5" H 6070 3746 50  0000 L CNN
 F 1 "10k" H 6070 3655 50  0000 L CNN
 F 2 "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal" V 5930 3700 50  0001 C CNN
 F 3 "~" H 6000 3700 50  0001 C CNN
@@ -208,13 +208,13 @@ F 3 "~" H 6000 3700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR013
 U 1 1 5BCF4B6F
 P 6000 3850
-AR Path="/5BD3906D/5BCF4B6F" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCF4B6F" Ref="#PWR?"  Part="1" 
-AR Path="/5BCF4B6F" Ref="#PWR013"  Part="1" 
-F 0 "#PWR013" H 6000 3600 50  0001 C CNN
+AR Path="/5BD3906D/5BCF4B6F" Ref="#PWR013"  Part="1" 
+AR Path="/5BD39338/5BCF4B6F" Ref="#PWR053"  Part="1" 
+AR Path="/5BCF4B6F" Ref="#PWR?"  Part="1" 
+F 0 "#PWR053" H 6000 3600 50  0001 C CNN
 F 1 "GND" H 6005 3677 50  0000 C CNN
 F 2 "" H 6000 3850 50  0001 C CNN
 F 3 "" H 6000 3850 50  0001 C CNN
@@ -229,13 +229,13 @@ Wire Wire Line
 	4900 3900 4550 3900
 Connection ~ 6000 3550
 $Comp
-L power:VDD #PWR?
+L power:VDD #PWR012
 U 1 1 5BCF63D1
 P 6000 3250
-AR Path="/5BD3906D/5BCF63D1" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCF63D1" Ref="#PWR?"  Part="1" 
-AR Path="/5BCF63D1" Ref="#PWR012"  Part="1" 
-F 0 "#PWR012" H 6000 3100 50  0001 C CNN
+AR Path="/5BD3906D/5BCF63D1" Ref="#PWR012"  Part="1" 
+AR Path="/5BD39338/5BCF63D1" Ref="#PWR052"  Part="1" 
+AR Path="/5BCF63D1" Ref="#PWR?"  Part="1" 
+F 0 "#PWR052" H 6000 3100 50  0001 C CNN
 F 1 "VDD" H 6017 3423 50  0000 C CNN
 F 2 "" H 6000 3250 50  0001 C CNN
 F 3 "" H 6000 3250 50  0001 C CNN
@@ -243,13 +243,13 @@ F 3 "" H 6000 3250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VDD #PWR?
+L power:VDD #PWR010
 U 1 1 5BCFAD35
 P 5950 4500
-AR Path="/5BD3906D/5BCFAD35" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCFAD35" Ref="#PWR?"  Part="1" 
-AR Path="/5BCFAD35" Ref="#PWR010"  Part="1" 
-F 0 "#PWR010" H 5950 4350 50  0001 C CNN
+AR Path="/5BD3906D/5BCFAD35" Ref="#PWR010"  Part="1" 
+AR Path="/5BD39338/5BCFAD35" Ref="#PWR050"  Part="1" 
+AR Path="/5BCFAD35" Ref="#PWR?"  Part="1" 
+F 0 "#PWR050" H 5950 4350 50  0001 C CNN
 F 1 "VDD" H 5967 4673 50  0000 C CNN
 F 2 "" H 5950 4500 50  0001 C CNN
 F 3 "" H 5950 4500 50  0001 C CNN
@@ -257,13 +257,13 @@ F 3 "" H 5950 4500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR?
+L power:VCC #PWR09
 U 1 1 5BCFB594
 P 5800 4600
-AR Path="/5BD3906D/5BCFB594" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCFB594" Ref="#PWR?"  Part="1" 
-AR Path="/5BCFB594" Ref="#PWR09"  Part="1" 
-F 0 "#PWR09" H 5800 4450 50  0001 C CNN
+AR Path="/5BD3906D/5BCFB594" Ref="#PWR09"  Part="1" 
+AR Path="/5BD39338/5BCFB594" Ref="#PWR049"  Part="1" 
+AR Path="/5BCFB594" Ref="#PWR?"  Part="1" 
+F 0 "#PWR049" H 5800 4450 50  0001 C CNN
 F 1 "VCC" H 5817 4773 50  0000 C CNN
 F 2 "" H 5800 4600 50  0001 C CNN
 F 3 "" H 5800 4600 50  0001 C CNN
@@ -271,13 +271,13 @@ F 3 "" H 5800 4600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR011
 U 1 1 5BCFBE51
 P 5950 5800
-AR Path="/5BD3906D/5BCFBE51" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BCFBE51" Ref="#PWR?"  Part="1" 
-AR Path="/5BCFBE51" Ref="#PWR011"  Part="1" 
-F 0 "#PWR011" H 5950 5550 50  0001 C CNN
+AR Path="/5BD3906D/5BCFBE51" Ref="#PWR011"  Part="1" 
+AR Path="/5BD39338/5BCFBE51" Ref="#PWR051"  Part="1" 
+AR Path="/5BCFBE51" Ref="#PWR?"  Part="1" 
+F 0 "#PWR051" H 5950 5550 50  0001 C CNN
 F 1 "GND" H 5955 5627 50  0000 C CNN
 F 2 "" H 5950 5800 50  0001 C CNN
 F 3 "" H 5950 5800 50  0001 C CNN
@@ -301,13 +301,13 @@ Wire Wire Line
 Text Notes 1100 6650 0    50   ~ 0
 MCU Module
 $Comp
-L Connector:Conn_01x06_Male J?
+L Connector:Conn_01x06_Male J1
 U 1 1 5BD41D4E
 P 6150 1050
-AR Path="/5BD3906D/5BD41D4E" Ref="J?"  Part="1" 
-AR Path="/5BD39338/5BD41D4E" Ref="J?"  Part="1" 
-AR Path="/5BD41D4E" Ref="J1"  Part="1" 
-F 0 "J1" H 6250 650 50  0000 R CNN
+AR Path="/5BD3906D/5BD41D4E" Ref="J1"  Part="1" 
+AR Path="/5BD39338/5BD41D4E" Ref="J9"  Part="1" 
+AR Path="/5BD41D4E" Ref="J?"  Part="1" 
+F 0 "J9" H 6250 650 50  0000 R CNN
 F 1 "PROG" H 6250 550 50  0000 R CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 6150 1050 50  0001 C CNN
 F 3 "~" H 6150 1050 50  0001 C CNN
@@ -315,13 +315,13 @@ F 3 "~" H 6150 1050 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR?
+L power:VCC #PWR07
 U 1 1 5BD421B2
 P 5750 850
-AR Path="/5BD3906D/5BD421B2" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BD421B2" Ref="#PWR?"  Part="1" 
-AR Path="/5BD421B2" Ref="#PWR07"  Part="1" 
-F 0 "#PWR07" H 5750 700 50  0001 C CNN
+AR Path="/5BD3906D/5BD421B2" Ref="#PWR07"  Part="1" 
+AR Path="/5BD39338/5BD421B2" Ref="#PWR047"  Part="1" 
+AR Path="/5BD421B2" Ref="#PWR?"  Part="1" 
+F 0 "#PWR047" H 5750 700 50  0001 C CNN
 F 1 "VCC" H 5767 1023 50  0000 C CNN
 F 2 "" H 5750 850 50  0001 C CNN
 F 3 "" H 5750 850 50  0001 C CNN
@@ -331,13 +331,13 @@ $EndComp
 Wire Wire Line
 	5750 850  5950 850 
 $Comp
-L power:GND #PWR?
+L power:GND #PWR08
 U 1 1 5BD44828
 P 5750 1350
-AR Path="/5BD3906D/5BD44828" Ref="#PWR?"  Part="1" 
-AR Path="/5BD39338/5BD44828" Ref="#PWR?"  Part="1" 
-AR Path="/5BD44828" Ref="#PWR08"  Part="1" 
-F 0 "#PWR08" H 5750 1100 50  0001 C CNN
+AR Path="/5BD3906D/5BD44828" Ref="#PWR08"  Part="1" 
+AR Path="/5BD39338/5BD44828" Ref="#PWR048"  Part="1" 
+AR Path="/5BD44828" Ref="#PWR?"  Part="1" 
+F 0 "#PWR048" H 5750 1100 50  0001 C CNN
 F 1 "GND" H 5755 1177 50  0000 C CNN
 F 2 "" H 5750 1350 50  0001 C CNN
 F 3 "" H 5750 1350 50  0001 C CNN
@@ -415,7 +415,9 @@ $Comp
 L Connector:Conn_01x06_Male J2
 U 1 1 5BDB9DE8
 P 6600 4700
-F 0 "J2" H 6706 5078 50  0000 C CNN
+AR Path="/5BD3906D/5BDB9DE8" Ref="J2"  Part="1" 
+AR Path="/5BD39338/5BDB9DE8" Ref="J10"  Part="1" 
+F 0 "J10" H 6706 5078 50  0000 C CNN
 F 1 "Conn_01x06_Male" H 6706 4987 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 6600 4700 50  0001 C CNN
 F 3 "~" H 6600 4700 50  0001 C CNN
@@ -428,7 +430,9 @@ $Comp
 L Connector:Conn_01x06_Male J3
 U 1 1 5BDB9E88
 P 6600 5500
-F 0 "J3" H 6700 5150 50  0000 R CNN
+AR Path="/5BD3906D/5BDB9E88" Ref="J3"  Part="1" 
+AR Path="/5BD39338/5BDB9E88" Ref="J11"  Part="1" 
+F 0 "J11" H 6700 5150 50  0000 R CNN
 F 1 "Conn_01x06_Male" H 6900 5050 50  0000 R CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 6600 5500 50  0001 C CNN
 F 3 "~" H 6600 5500 50  0001 C CNN

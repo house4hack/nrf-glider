@@ -1,5 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:glider_tx-cache
+LIBS:glider_tx2-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -57,29 +57,6 @@ Wire Wire Line
 	4350 3350 5150 3350
 Wire Wire Line
 	5150 3350 5150 3150
-NoConn ~ 5550 3100
-$Comp
-L Device:R_POT_US RV1
-U 1 1 5BD2C04D
-P 6050 3500
-F 0 "RV1" H 5983 3546 50  0000 R CNN
-F 1 "10k" H 5983 3455 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_ACP_CA9-V10_Vertical" H 6050 3500 50  0001 C CNN
-F 3 "~" H 6050 3500 50  0001 C CNN
-	1    6050 3500
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Device:R_POT_US RV2
-U 1 1 5BD2C0E7
-P 6050 4000
-F 0 "RV2" H 5983 4046 50  0000 R CNN
-F 1 "10k" H 5983 3955 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_ACP_CA9-V10_Vertical" H 6050 4000 50  0001 C CNN
-F 3 "~" H 6050 4000 50  0001 C CNN
-	1    6050 4000
-	-1   0    0    -1  
-$EndComp
 $Comp
 L Device:Buzzer BZ1
 U 1 1 5BD2C1D8
@@ -234,55 +211,29 @@ $EndComp
 Wire Wire Line
 	4350 3450 5700 3450
 Wire Wire Line
-	5700 3450 5700 3500
-Wire Wire Line
-	5700 3500 5900 3500
-Wire Wire Line
-	4350 3750 5800 3750
-Wire Wire Line
-	5800 3750 5800 4000
-Wire Wire Line
-	5800 4000 5900 4000
+	4350 3750 5300 3750
 $Comp
 L power:VCC #PWR026
 U 1 1 5BDA8B66
-P 6700 3250
-F 0 "#PWR026" H 6700 3100 50  0001 C CNN
-F 1 "VCC" H 6717 3423 50  0000 C CNN
-F 2 "" H 6700 3250 50  0001 C CNN
-F 3 "" H 6700 3250 50  0001 C CNN
-	1    6700 3250
+P 6100 2950
+F 0 "#PWR026" H 6100 2800 50  0001 C CNN
+F 1 "VCC" H 6117 3123 50  0000 C CNN
+F 2 "" H 6100 2950 50  0001 C CNN
+F 3 "" H 6100 2950 50  0001 C CNN
+	1    6100 2950
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	6050 3350 6700 3350
-Wire Wire Line
-	6700 3350 6700 3250
-Wire Wire Line
-	6700 3350 6700 3850
-Wire Wire Line
-	6700 3850 6050 3850
-Connection ~ 6700 3350
 $Comp
 L power:GND #PWR024
 U 1 1 5BDB1721
-P 6650 4250
-F 0 "#PWR024" H 6650 4000 50  0001 C CNN
-F 1 "GND" H 6655 4077 50  0000 C CNN
-F 2 "" H 6650 4250 50  0001 C CNN
-F 3 "" H 6650 4250 50  0001 C CNN
-	1    6650 4250
+P 6100 3950
+F 0 "#PWR024" H 6100 3700 50  0001 C CNN
+F 1 "GND" H 6105 3777 50  0000 C CNN
+F 2 "" H 6100 3950 50  0001 C CNN
+F 3 "" H 6100 3950 50  0001 C CNN
+	1    6100 3950
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	6050 4150 6650 4150
-Wire Wire Line
-	6650 4150 6650 4250
-Wire Wire Line
-	6650 4150 6650 3650
-Wire Wire Line
-	6650 3650 6050 3650
-Connection ~ 6650 4150
 $Comp
 L power:GND #PWR022
 U 1 1 5BDC42C6
@@ -326,7 +277,7 @@ U 1 1 5BCF8F2B
 P 4150 2500
 F 0 "J5" H 4256 2778 50  0000 C CNN
 F 1 "UART" H 4256 2687 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal" H 4150 2500 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 4150 2500 50  0001 C CNN
 F 3 "~" H 4150 2500 50  0001 C CNN
 	1    4150 2500
 	1    0    0    -1  
@@ -364,16 +315,6 @@ Text Notes 4000 2550 0    50   ~ 0
 RX
 Text Notes 3950 2650 0    50   ~ 0
 GND
-Wire Notes Line
-	5850 3300 6850 3300
-Wire Notes Line
-	6850 3300 6850 4200
-Wire Notes Line
-	6850 4200 5850 4200
-Wire Notes Line
-	5850 4200 5850 3300
-Text Notes 5900 3250 0    50   ~ 0
-Joystick
 Text Notes 5400 3400 0    50   ~ 0
 Left/Right\n
 Text Notes 5400 3700 0    50   ~ 0
@@ -391,19 +332,6 @@ Text Notes 8250 7650 0    50   ~ 0
 23 October 2018
 Text Notes 10300 7350 0    50   ~ 0
 created by Toby Kurien
-$Comp
-L Switch:SW_SPST SW1
-U 1 1 5BD0D3D1
-P 5700 1450
-F 0 "SW1" H 5700 1685 50  0000 C CNN
-F 1 "SW_SPST" H 5700 1594 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_SPST_SKQG_WithStem" H 5700 1450 50  0001 C CNN
-F 3 "" H 5700 1450 50  0001 C CNN
-	1    5700 1450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5900 1450 6000 1450
 Wire Wire Line
 	6000 1350 6000 1450
 Connection ~ 6000 1450
@@ -474,4 +402,72 @@ Wire Wire Line
 	4900 4450 4900 4650
 Wire Wire Line
 	4300 4250 4900 4250
+$Comp
+L Connector:Conn_01x05_Female J1
+U 1 1 5BECCCD8
+P 6450 3700
+F 0 "J1" H 6477 3726 50  0000 L CNN
+F 1 "Conn_01x05_Female" H 6477 3635 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Horizontal" H 6450 3700 50  0001 C CNN
+F 3 "~" H 6450 3700 50  0001 C CNN
+	1    6450 3700
+	1    0    0    -1  
+$EndComp
+Text HLabel 6450 3800 2    50   Output ~ 0
+3V3
+Text HLabel 6450 3900 2    50   Output ~ 0
+GND
+Text HLabel 6450 3700 2    50   BiDi ~ 0
+VRX
+Text HLabel 6450 3600 2    50   BiDi ~ 0
+VRY
+Text HLabel 6450 3500 2    50   BiDi ~ 0
+SW
+$Comp
+L Device:R R1
+U 1 1 5BECCED6
+P 5950 3200
+F 0 "R1" H 6020 3246 50  0000 L CNN
+F 1 "4k7" H 6020 3155 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal" V 5880 3200 50  0001 C CNN
+F 3 "~" H 5950 3200 50  0001 C CNN
+	1    5950 3200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 2950 6100 3050
+Wire Wire Line
+	6100 3800 6250 3800
+Wire Wire Line
+	5950 3050 6100 3050
+Connection ~ 6100 3050
+Wire Wire Line
+	6100 3050 6100 3800
+Wire Wire Line
+	5950 3350 5950 3500
+Wire Wire Line
+	5950 3500 6250 3500
+Wire Wire Line
+	5700 3700 6250 3700
+Wire Wire Line
+	5700 3450 5700 3700
+Wire Wire Line
+	6250 3600 5300 3600
+Wire Wire Line
+	5300 3600 5300 3750
+Wire Wire Line
+	6250 3900 6100 3900
+Wire Wire Line
+	6100 3900 6100 3950
+Wire Wire Line
+	5950 3500 5950 4050
+Wire Wire Line
+	5950 4050 4200 4050
+Wire Wire Line
+	4200 4050 4200 4250
+Wire Wire Line
+	4200 4250 4100 4250
+Connection ~ 5950 3500
+Wire Wire Line
+	5500 1450 6000 1450
 $EndSCHEMATC
