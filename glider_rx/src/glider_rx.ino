@@ -39,7 +39,6 @@ Servo servoelevator;
 #define SERVO_MIN 50
 #define JOYSTICK_MID 127
 
-Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = {0xDE, 0xAD, 0xBE, 0xEF, 0x01};
 unsigned char joystick[2];
 long lastreceived = 0;
