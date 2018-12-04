@@ -6,7 +6,6 @@
 #include "Enrf24.h"
 #include "MspFlash.h"
 
-#define TEST        false  // send test pattern
 #define DEBUG       false  // serial output
 
 #define CHANNEL     100    // default channel if not in flash
@@ -29,7 +28,7 @@ Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 const uint8_t rxaddr[] = {0xDE, 0xAD, 0xBE, 0xEF, 0x01};
 unsigned char joystick[2];
 
-// Config data stored into flash
+// Config data stored into flash (max 64 bytes)
 struct FlashData {
   byte checkByte;
   byte channel;
@@ -40,7 +39,6 @@ struct FlashData {
 unsigned int leftRight = 127;
 unsigned int upDown = 127;
 unsigned long trimStart = 0;
-int i = 0; // for test code
 
 // the setup routine runs once when you press reset:
 void setup() {                
@@ -87,30 +85,21 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  if (TEST) {
-    i += 2;
-    if (i > 255) i = 0;
-    joystick[0] = i; //UP_DOWN
-    joystick[1] = i; //LEFT_RIGHT
-    radio.write(joystick, sizeof(joystick));
-    radio.flush();
-  } else {
-    leftRight = analogRead(LEFT_RIGHT);
-    upDown = analogRead(UP_DOWN);
+  leftRight = analogRead(LEFT_RIGHT);
+  upDown = analogRead(UP_DOWN);
 
-    doTrimControl();
-    leftRight = applySensitivityAndTrim(leftRight, data.trimLeftRight);
-    upDown = applySensitivityAndTrim(upDown, data.trimUpDown); 
+  doTrimControl();
+  leftRight = applySensitivityAndTrim(leftRight, data.trimLeftRight);
+  upDown = applySensitivityAndTrim(upDown, data.trimUpDown); 
 
-    leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
-    joystick[0] = map(upDown, 0, 1023, 
-      255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
-    joystick[1] = map(upDown, 0, 1023, 
-      MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
+  leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
+  joystick[0] = map(upDown, 0, 1023, 
+    255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
+  joystick[1] = map(upDown, 0, 1023, 
+    MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
 
-    radio.write(joystick, sizeof(joystick));
-    radio.flush();
-  }
+  radio.write(joystick, sizeof(joystick));
+  radio.flush();
 
   if (DEBUG) {
     Serial.print(joystick[0]);
@@ -134,8 +123,8 @@ void doTrimControl() {
   // trim control
   if (digitalRead(BUTTON) == LOW // button pressed
       && millis() - trimStart > 5000 // at least 5s between trims
-      && abs(leftRight - 512) < 256 // don't allow extreme trims
-      && abs(upDown - 512) < 256) {
+      && abs(leftRight - 512) < 350 // don't allow extreme trims
+      && abs(upDown - 512) < 350) {
     trimStart = millis();
 
     data.trimLeftRight = leftRight - 512;
@@ -180,18 +169,4 @@ unsigned int applySensitivityAndTrim(int input, int trim) {
 void writeData(FlashData data) {
   Flash.erase(flash);
   Flash.write(flash, (unsigned char *)&data, sizeof(data));  
-}
-
-void testCode() {  
-  //digitalWrite(BUZZER, HIGH);
-  delay(100);               // wait for a second
-
-  Serial.print(analogRead(UP_DOWN), DEC);
-  Serial.print(" ");
-  Serial.print(analogRead(LEFT_RIGHT), DEC);
-  Serial.print(" ");
-  Serial.println(analogRead(BATTERY), DEC);
-  
-  //digitalWrite(BUZZER, LOW);
-  delay(100);               // wait for a second
 }
