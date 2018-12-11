@@ -6,18 +6,9 @@
 #include "Enrf24.h"
 #include "MspFlash.h"
 #include "config.h"
+#include "glider_tx.h"
 
 unsigned char joystick[2];
-
-// Config data stored into flash (max 64 bytes)
-struct FlashData {
-  unsigned char checkByte;
-  unsigned char channel;
-  unsigned char sensitivity;
-  int trimUpDown;
-  int trimLeftRight;
-} data;
-
 unsigned int leftRight = 127;
 unsigned int upDown = 127;
 unsigned long trimStart = 0;
