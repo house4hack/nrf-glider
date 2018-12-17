@@ -78,11 +78,19 @@ void loop() {
   leftRight = applySensitivityAndTrim(leftRight, data.trimLeftRight);
   upDown = applySensitivityAndTrim(upDown, data.trimUpDown); 
 
+#ifdef VERSION1 
+  leftRight = map(leftRight, 1023, 0, -MIX_FACTOR, MIX_FACTOR);
+  joystick[0] = map(upDown, 1023, 0,   
+    255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
+  joystick[1] = map(upDown, 1023, 0,  
+    MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
+#else
   leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
-  joystick[0] = map(upDown, 0, 1023, 
+  joystick[0] = map(upDown, 0, 1023,  
     255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
   joystick[1] = map(upDown, 0, 1023, 
     MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
+#endif
 
   radio.write(joystick, sizeof(joystick));
   radio.flush();
@@ -92,7 +100,7 @@ void loop() {
     Serial.print(" ");
     Serial.print(joystick[1]);
     Serial.print(" ");
-    Serial.print(analogRead(BATTERY));  
+    Serial.println(analogRead(BATTERY));  
   }
 
   handleMenu();

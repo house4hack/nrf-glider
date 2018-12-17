@@ -1,10 +1,10 @@
-#define DEBUG       false  // serial output
+#define DEBUG       true//false  // serial output
 
 // Default parameters if flash has no data
 #ifdef VERSION1
   #define CHANNEL     100    // default channel if not in flash
 #else
-  #define CHANNEL     110    // default channel if not in flash
+  #define CHANNEL     120    // default channel if not in flash
 #endif
 
 #define flash        SEGMENT_D // four segments, segment A read-only

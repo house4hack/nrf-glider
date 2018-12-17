@@ -24,19 +24,26 @@ Servo servoelevator;
   #define UP_DOWN     P2_5
   #define BATTERY     P1_4
   Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
+  #define BATTERY_LOW 550
+  #define BATTERY_33 450
+  #define SERVO_MAX 140
+  #define SERVO_MIN 50
+  #define INVERT_SERVOS false
 #else
-  #define CHANNEL     110
+  #define CHANNEL     120
   #define BUZZER      P2_0
   #define LEFT_RIGHT  P1_0
   #define UP_DOWN     P1_3
   #define BATTERY     P1_4
   Enrf24 radio(P2_6, P2_7, P2_5); // CE, CSN, IRQ
+  #define BATTERY_LOW 465 //465=4.5v x=1024/3.3V*4.5V*10K/30K
+  #define BATTERY_33 345 //345=3.4v x=1024/3.3V*3.3V*10K/30K
+  #define SERVO_MAX 170 //140
+  #define SERVO_MIN 20 //50
+  #define INVERT_SERVOS false
+//  #define INVERT_SERVOS true
 #endif
 
-#define BATTERY_LOW 550
-
-#define SERVO_MAX 140
-#define SERVO_MIN 50
 #define JOYSTICK_MID 127
 
 const uint8_t rxaddr[] = {0xDE, 0xAD, 0xBE, 0xEF, 0x01};
@@ -85,7 +92,7 @@ int buzzerPeriod = 100;
 void loop()
 {
   battery = analogRead(BATTERY);
-  if (battery < BATTERY_LOW && battery > 450)
+  if (battery < BATTERY_LOW && battery > BATTERY_33)
   {
     buzzerOn = true;
     buzzerPeriod = 100;
@@ -166,9 +173,16 @@ void loop()
 
 void writeServoValues()
 {
-  aeliron = map(joystick[0], 0, 255, SERVO_MIN, SERVO_MAX);
-  elevator = map(joystick[1], 0, 255, SERVO_MIN, SERVO_MAX);
-
+  if (!INVERT_SERVOS) 
+  {  
+     aeliron = map(joystick[0], 0, 255, SERVO_MIN, SERVO_MAX);
+     elevator = map(joystick[1], 0, 255, SERVO_MIN, SERVO_MAX);
+  }
+  else
+  {  
+     aeliron = map(joystick[0], 255, 0, SERVO_MIN, SERVO_MAX);
+     elevator = map(joystick[1], 255, 0, SERVO_MIN, SERVO_MAX);
+  }
   servoelevator.write(elevator);
   servoaeliron.write(aeliron);
 }
