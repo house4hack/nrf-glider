@@ -74,6 +74,14 @@ void loop() {
   leftRight = analogRead(LEFT_RIGHT);
   upDown = analogRead(UP_DOWN);
 
+  #ifdef DEBUG
+    Serial.print(leftRight);
+    Serial.print("\t");
+    Serial.print(upDown);
+    Serial.print("\t");
+    Serial.println(analogRead(BATTERY));  
+  #endif
+
   doTrimControl();
   leftRight = applySensitivityAndTrim(leftRight, data.trimLeftRight);
   upDown = applySensitivityAndTrim(upDown, data.trimUpDown); 
@@ -94,14 +102,6 @@ void loop() {
 
   radio.write(joystick, sizeof(joystick));
   radio.flush();
-
-  if (DEBUG) {
-    Serial.print(joystick[0]);
-    Serial.print(" ");
-    Serial.print(joystick[1]);
-    Serial.print(" ");
-    Serial.println(analogRead(BATTERY));  
-  }
 
   handleMenu();
 
