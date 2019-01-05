@@ -1,5 +1,4 @@
 #ifndef __GLIDER_TX_H__
-
 #define __GLIDER_TX_H__
 
 // Config data stored into flash (max 64 bytes)

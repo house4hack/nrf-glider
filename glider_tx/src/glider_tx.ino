@@ -26,11 +26,7 @@ void setup() {
   digitalWrite(BUZZER, LOW);  
 
   Serial.begin(9600); 
-  #ifdef VERSION1
-    Serial.println("NRF Glider v1.0");
-  #else
-    Serial.println("NRF Glider v2.0");
-  #endif
+  printVersion();
 
   // read data from flash
   Serial.print("Reading flash ");
@@ -74,13 +70,13 @@ void loop() {
   leftRight = analogRead(LEFT_RIGHT);
   upDown = analogRead(UP_DOWN);
 
-  #ifdef DEBUG
-    Serial.print(leftRight);
-    Serial.print("\t");
-    Serial.print(upDown);
-    Serial.print("\t");
-    Serial.println(analogRead(BATTERY));  
-  #endif
+  // #ifdef DEBUG
+  //   Serial.print(leftRight);
+  //   Serial.print("\t");
+  //   Serial.print(upDown);
+  //   Serial.print("\t");
+  //   Serial.println(analogRead(BATTERY));  
+  // #endif
 
   doTrimControl();
   leftRight = applySensitivityAndTrim(leftRight, data.trimLeftRight);
@@ -200,7 +196,16 @@ bool sanityCheck(FlashData *dataIn) {
   return passed;
 }
 
+void printVersion() {
+  #ifdef VERSION1
+    Serial.println("NRF Glider v1.0");
+  #else
+    Serial.println("NRF Glider v2.0");
+  #endif
+}
+
 void printMenu() {
+  printVersion();
   Serial.print("*** Menu ***\n");
   Serial.print("(1) Set channel (");
   Serial.print(data.channel);

@@ -1,4 +1,7 @@
-#define DEBUG       true//false  // serial output
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
+
+#define DEBUG         false  // serial output
 
 // Default parameters if flash has no data
 #ifdef VERSION1
@@ -35,3 +38,5 @@
 
 // receive address
 const uint8_t rxaddr[] = {0xDE, 0xAD, 0xBE, 0xEF, 0x01};
+
+#endif
