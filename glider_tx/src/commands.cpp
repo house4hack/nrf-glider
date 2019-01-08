@@ -30,6 +30,7 @@ void Commands::handleCommands(FlashData *dataPtr) {
   char command, c;
   char value[3];
 
+  for (c=0; c < sizeof(value); c++) value[c] = 0;
   while (Serial.available() > 0) {
     c = Serial.read();
     if (c == '?') {
@@ -38,16 +39,24 @@ void Commands::handleCommands(FlashData *dataPtr) {
       // command start, read up to 3 numerical digits as value
       command = c;
       char i = 0;
-      while (Serial.available() > 0 && i < 3) {
-        c = Serial.read();
+      unsigned long start = millis();
+      while (millis() - start < 1000 && i < 3) {
+        if (Serial.available() > 0) {
+          c = Serial.read();
+        } else {
+          c = 0;
+        }
+
         if (c >= '0' && c <= '9') {
           value[i++] = c;
+        } else if (c != 0) {
+          break;
         }
       }
 
       Serial.print("Got command: ");
       Serial.print(command);
-      Serial.println(value);
+      Serial.println(String(value).toInt());
     } else {
       // ignore
     }
