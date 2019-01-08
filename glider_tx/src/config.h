@@ -1,7 +1,7 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-#define DEBUG         false  // serial output
+#define DEBUG_PRINT   false  // serial output
 
 // Default parameters if flash has no data
 #ifdef VERSION1
@@ -10,9 +10,6 @@
   #define CHANNEL     120    // default channel if not in flash
 #endif
 
-#define flash        SEGMENT_D // four segments, segment A read-only
-#define CHECK_BYTE  0xA1  // indicates if flash has valid data
-
 // hardware connections
 #ifdef VERSION1
   #define TRIM_BUTTON P2_4
@@ -20,14 +17,12 @@
   #define LEFT_RIGHT  P1_1
   #define UP_DOWN     P1_3
   #define BATTERY     P1_4
-  Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
 #else
   #define TRIM_BUTTON P2_1
   #define BUZZER      P2_0 
   #define LEFT_RIGHT  P1_0
   #define UP_DOWN     P1_3
   #define BATTERY     P1_4
-  Enrf24 radio(P2_6, P2_7, P2_5); // CE, CSN, IRQ
 #endif
 
 // Hard-coded parameters

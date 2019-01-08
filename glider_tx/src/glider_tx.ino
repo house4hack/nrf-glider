@@ -4,14 +4,24 @@
 
 #include <SPI.h>
 #include "Enrf24.h"
-#include "MspFlash.h"
 #include "config.h"
 #include "glider_tx.h"
+#include "flash.h"
+#include "commands.h"
 
 unsigned char joystick[2];
 unsigned int leftRight = 127;
 unsigned int upDown = 127;
 unsigned long trimStart = 0;
+
+FlashData data;
+FlashHandler flashHandler;
+Commands commands;
+#ifdef VERSION1
+  Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
+#else
+  Enrf24 radio(P2_6, P2_7, P2_5); // CE, CSN, IRQ
+#endif
 
 // the setup routine runs once when you press reset:
 void setup() {                
@@ -26,32 +36,8 @@ void setup() {
   digitalWrite(BUZZER, LOW);  
 
   Serial.begin(9600); 
-  printVersion();
-
-  // read data from flash
-  Serial.print("Reading flash ");
-  Serial.print(sizeof(FlashData));
-  Serial.println(" bytes");
-
-  Flash.read(flash, (unsigned char *)&data, sizeof(FlashData));
-  if (data.checkByte != CHECK_BYTE) {
-    Serial.println("No data in flash, using defaults...");
-    data.checkByte = CHECK_BYTE;
-    data.channel = CHANNEL;
-    data.sensitivity = 100;
-    data.trimLeftRight = 0;
-    data.trimUpDown = 0;
-    Serial.println("Writing flash...");
-    writeData(&data);
-  } else {
-    Serial.println("Read data from flash.");
-    if (!sanityCheck(&data)) {
-      Serial.println("Some data was invalid, resetting...");
-      writeData(&data);
-    }
-  }
-
-  printMenu();
+  commands.printCommandHelp(data);
+  flashHandler.readData(data);
 
   SPI.begin();
   SPI.setDataMode(SPI_MODE0);
@@ -70,13 +56,13 @@ void loop() {
   leftRight = analogRead(LEFT_RIGHT);
   upDown = analogRead(UP_DOWN);
 
-  // #ifdef DEBUG
-  //   Serial.print(leftRight);
-  //   Serial.print("\t");
-  //   Serial.print(upDown);
-  //   Serial.print("\t");
-  //   Serial.println(analogRead(BATTERY));  
-  // #endif
+  #ifdef DEBUG_PRINT
+    Serial.print(leftRight);
+    Serial.print("\t");
+    Serial.print(upDown);
+    Serial.print("\t");
+    Serial.println(analogRead(BATTERY));  
+  #endif
 
   doTrimControl();
   leftRight = applySensitivityAndTrim(leftRight, data.trimLeftRight);
@@ -99,7 +85,7 @@ void loop() {
   radio.write(joystick, sizeof(joystick));
   radio.flush();
 
-  handleMenu();
+  commands.handleCommands(data);
 
   // 435 = 3.0V, 915 = 6.35V
   if (analogRead(BATTERY) < 675 && // low battery condition
@@ -121,7 +107,7 @@ void doTrimControl() {
 
     data.trimLeftRight = leftRight - 512;
     data.trimUpDown = upDown - 512;
-    writeData(&data);
+    flashHandler.writeData(&data);
 
     // give user a short time to return to zero
     while (millis() - trimStart < 500) {
@@ -156,104 +142,4 @@ unsigned int applySensitivityAndTrim(int input, int trim) {
   if (retVal > 1023) retVal = 1023;
 
   return retVal;
-}
-
-void writeData(FlashData *data) {
-  Flash.erase(flash);
-  Flash.write(flash, (unsigned char *)data, sizeof(FlashData));  
-}
-
-bool sanityCheck(FlashData *dataIn) {
-  bool passed = true;
-  FlashData data = (*dataIn);
-
-  // sanity check the values!
-  if (data.channel < 1 || data.channel  > 127) {
-    Serial.print("Invalid channel ");
-    Serial.println(data.channel);
-    data.channel = CHANNEL;
-    passed = false;
-  }
-
-  if (data.trimLeftRight > MAX_TRIM || data.trimLeftRight < -MAX_TRIM ||
-      data.trimUpDown > MAX_TRIM || data.trimUpDown < -MAX_TRIM) {
-    Serial.print("Invalid trim ");
-    Serial.print(data.trimLeftRight);
-    Serial.print(" ");
-    Serial.println(data.trimUpDown);
-    data.trimLeftRight = 0;
-    data.trimUpDown = 0;
-    passed = false;
-  }
-
-  if (data.sensitivity < MIN_SENSITIVITY || data.sensitivity > 100) {
-    Serial.print("Invalid sensitivity ");
-    Serial.println(data.sensitivity);
-    data.sensitivity = 100;
-    passed = false;
-  }
-
-  return passed;
-}
-
-void printVersion() {
-  #ifdef VERSION1
-    Serial.println("NRF Glider v1.0");
-  #else
-    Serial.println("NRF Glider v2.0");
-  #endif
-}
-
-void printMenu() {
-  printVersion();
-  Serial.print("*** Menu ***\n");
-  Serial.print("(1) Set channel (");
-  Serial.print(data.channel);
-  Serial.print(")\n");
-
-  Serial.print("(2) Set sensitivity (");
-  Serial.print(data.sensitivity);
-  Serial.print(")\n");
-}
-
-void handleMenu() {
-  // flush the input buffer
-  while (Serial.available() > 1) Serial.read();
-  String val;
-  Serial.setTimeout(5000); // amount of time to enter input
-
-  if (Serial.available()) {
-    switch (Serial.read()) {
-      case '1': // set channel
-                Serial.print("Enter Channel (1 -> 127) > ");
-                val = Serial.readStringUntil('\n');
-                if (val.length() == 0) break;
-                Serial.println(val);
-                data.channel = val.toInt();
-                if (sanityCheck(&data)) {
-                  writeData(&data);
-                } else {
-                  Serial.println("ERROR - invalid channel");
-                }
-                break;
-
-      case '2': // set sensitivity
-                Serial.print("Enter Sensitivity (");
-                Serial.print(MIN_SENSITIVITY);
-                Serial.print(" -> 100) > ");
-                
-                val = Serial.readStringUntil('\n');
-                if (val.length() == 0) break;
-                Serial.println(val);
-                data.sensitivity = val.toInt();
-                if (sanityCheck(&data)) {
-                  writeData(&data);
-                } else {
-                  Serial.println("ERROR - invalid sensitivity");
-                }
-                break;
-    }
-
-    printMenu();
-  } 
 }
