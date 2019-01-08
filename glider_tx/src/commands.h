@@ -1,7 +1,7 @@
 #ifndef __COMMANDS_H__
 #define __COMMANDS_H__
 #include "Arduino.h"
-#include "glider_tx.h"
+#include "flash.h"
 
 class Commands {
     public:
@@ -10,7 +10,7 @@ class Commands {
         void handleCommands(FlashData data);
 
     private:
-        void _printCommandHelp(char command, char * item, int value);
+        void _printCommandHelp(char command, const char* item, int value);
 };
 
 #endif

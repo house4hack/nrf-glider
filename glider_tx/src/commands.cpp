@@ -8,7 +8,7 @@ void Commands::printVersion() {
   #endif
 }
 
-void Commands::_printCommandHelp(char command, char* item, int value) {
+void Commands::_printCommandHelp(char command, const char* item, int value) {
   Serial.print(command);
   Serial.print(" - Set ");
   Serial.print(item);
@@ -25,4 +25,29 @@ void Commands::printCommandHelp(FlashData data) {
 }
 
 void Commands::handleCommands(FlashData data) {
+  char command, c;
+  char value[3];
+
+  while (Serial.available() > 0) {
+    c = Serial.read();
+    if (c == '?') {
+      printCommandHelp(data);
+    } else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+      // command start, read up to 3 numerical digits as value
+      command = c;
+      char i = 0;
+      while (Serial.available() > 0 && i < 3) {
+        c = Serial.read();
+        if (c >= '0' && c <= '9') {
+          value[i++] = c;
+        }
+      }
+
+      Serial.print("Got command: ");
+      Serial.print(command);
+      Serial.println(value);
+    } else {
+      // ignore
+    }
+  }
 }
