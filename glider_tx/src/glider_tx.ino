@@ -39,12 +39,7 @@ void setup() {
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
-  radio.begin(250000, data.channel);  // Defaults 250kbps
-  radio.setTXpower(0);  // max power
-  radio.autoAck(false);
-  radio.setCRC(true, false);  // 8-bit CRC
-  radio.setRXaddress((void*)rxaddr);
-  radio.setTXaddress((void*)rxaddr);
+  startRadio();
 }
 
 // the loop routine runs over and over again forever:
@@ -84,6 +79,13 @@ void loop() {
   if (commands.handleCommands(&data)) {
     // write changes to flash
     flashHandler.writeData(&data);
+
+    // check if radio channel changed
+    if (data.channel != radio.getChannel()) {
+      // restart radio
+      radio.end();
+      startRadio();
+    }
   }
 
   // 435 = 3.0V, 915 = 6.35V
@@ -94,6 +96,15 @@ void loop() {
   }
 
   delay(10);
+}
+
+void startRadio() {
+  radio.begin(250000, data.channel);  // Defaults 250kbps
+  radio.setTXpower(0);  // max power
+  radio.autoAck(false);
+  radio.setCRC(true, false);  // 8-bit CRC
+  radio.setRXaddress((void*)rxaddr);
+  radio.setTXaddress((void*)rxaddr);
 }
 
 void doTrimControl() {
