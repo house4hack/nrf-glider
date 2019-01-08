@@ -7,10 +7,11 @@ class Commands {
     public:
         void printVersion();
         void printCommandHelp(FlashData *data);
-        void handleCommands(FlashData *data);
+        bool handleCommands(FlashData *data);
 
     private:
         void _printCommandHelp(char command, const char* item, int value);
+        bool _handleCommand(char command, int value, FlashData *data);
 };
 
 #endif

@@ -25,7 +25,7 @@ void Commands::printCommandHelp(FlashData *dataPtr) {
   _printCommandHelp('S', "sensitivity", data.sensitivity);
 }
 
-void Commands::handleCommands(FlashData *dataPtr) {
+bool Commands::handleCommands(FlashData *dataPtr) {
   FlashData data = (*dataPtr);
   char command, c;
   char value[3];
@@ -54,11 +54,28 @@ void Commands::handleCommands(FlashData *dataPtr) {
         }
       }
 
-      Serial.print("Got command: ");
-      Serial.print(command);
-      Serial.println(String(value).toInt());
+      return _handleCommand(command, String(value).toInt(), dataPtr);
     } else {
       // ignore
     }
   }
+
+  return false;
+}
+
+bool Commands::_handleCommand(char command, int value, FlashData *data) {
+  Serial.print("Got command: ");
+  Serial.print(command);
+  Serial.println(value);
+
+  switch (command) {
+    case 'C':
+      data->channel = value;
+      return true;
+    case 'S':
+      data->sensitivity = value;
+      return true;
+  }
+
+  return false;
 }
