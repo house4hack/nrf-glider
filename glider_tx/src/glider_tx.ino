@@ -36,8 +36,8 @@ void setup() {
   digitalWrite(BUZZER, LOW);  
 
   Serial.begin(9600); 
-  commands.printCommandHelp(data);
-  flashHandler.readData(data);
+  commands.printCommandHelp(&data);
+  flashHandler.readData(&data);
 
   SPI.begin();
   SPI.setDataMode(SPI_MODE0);
@@ -85,7 +85,7 @@ void loop() {
   radio.write(joystick, sizeof(joystick));
   radio.flush();
 
-  commands.handleCommands(data);
+  commands.handleCommands(&data);
 
   // 435 = 3.0V, 915 = 6.35V
   if (analogRead(BATTERY) < 675 && // low battery condition

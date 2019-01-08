@@ -29,7 +29,7 @@ struct FlashData {
 
 class FlashHandler {
     public:
-        void readData(FlashData data);
+        void readData(FlashData *data);
         void writeData(FlashData *data);
     
     private:

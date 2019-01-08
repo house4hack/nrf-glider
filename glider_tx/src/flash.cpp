@@ -1,6 +1,7 @@
 #include "flash.h"
 
-void FlashHandler::readData(FlashData data) {
+void FlashHandler::readData(FlashData *dataPtr) {
+  FlashData data = (*dataPtr);
   // read data from flash
   Serial.print("Reading flash ");
   Serial.print(sizeof(FlashData));

@@ -17,21 +17,23 @@ void Commands::_printCommandHelp(char command, const char* item, int value) {
   Serial.println(")"); 
 }
 
-void Commands::printCommandHelp(FlashData data) {
+void Commands::printCommandHelp(FlashData *dataPtr) {
+  FlashData data = (*dataPtr);
   printVersion();
   Serial.print("Commands (g-code style):\n");
   _printCommandHelp('C', "channel", data.channel);
   _printCommandHelp('S', "sensitivity", data.sensitivity);
 }
 
-void Commands::handleCommands(FlashData data) {
+void Commands::handleCommands(FlashData *dataPtr) {
+  FlashData data = (*dataPtr);
   char command, c;
   char value[3];
 
   while (Serial.available() > 0) {
     c = Serial.read();
     if (c == '?') {
-      printCommandHelp(data);
+      printCommandHelp(dataPtr);
     } else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
       // command start, read up to 3 numerical digits as value
       command = c;
