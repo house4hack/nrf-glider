@@ -17,11 +17,7 @@ unsigned long trimStart = 0;
 FlashData data;
 FlashHandler flashHandler;
 Commands commands;
-#ifdef VERSION1
-  Enrf24 radio(P2_0, P2_1, P2_2); // P2.0=CE, P2.1=CSN, P2.2=IRQ
-#else
-  Enrf24 radio(P2_6, P2_7, P2_5); // CE, CSN, IRQ
-#endif
+Enrf24 radio(NRF_CE, NRF_CSN, NRF_IRQ);
 
 // the setup routine runs once when you press reset:
 void setup() {                

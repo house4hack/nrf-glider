@@ -17,12 +17,18 @@
   #define LEFT_RIGHT  P1_1
   #define UP_DOWN     P1_3
   #define BATTERY     P1_4
+  #define NRF_CE      P2_0
+  #define NRF_CSN     P2_1
+  #define NRF_IRQ     P2_2
 #else
   #define TRIM_BUTTON P2_1
   #define BUZZER      P2_0 
   #define LEFT_RIGHT  P1_0
   #define UP_DOWN     P1_3
   #define BATTERY     P1_4
+  #define NRF_CE      P2_6
+  #define NRF_CSN     P2_7
+  #define NRF_IRQ     P2_5
 #endif
 
 // Hard-coded parameters
