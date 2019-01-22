@@ -173,18 +173,14 @@ void doTrimControl() {
 
 unsigned int applySensitivityAndTrim(unsigned int input, int trim) {
   // apply trim level
-  int retVal = input + trim;
+  int retVal = clip10(input + trim);
   double normVal = 512 - retVal;
 
   // apply exponential
   if (data.exponential > 0) {
-    if (abs(normVal) < (data.exponential << 2)) {
-      normVal = normVal * 0.75;
-    } else {
-      normVal = normVal * 1.25;
-      if (normVal < 0) normVal += 128;
-      else normVal -= 128;
-    }
+    double v = abs(normVal) / 512.00;
+    v = v * v * v; // max exponential = 3
+    normVal = ((normVal*v*data.exponential) + (normVal * (255-data.exponential))) / 255.0;
   }
 
   // apply sensitivity
@@ -198,7 +194,7 @@ unsigned int applySensitivityAndTrim(unsigned int input, int trim) {
   return retVal;
 }
 
-// Clip input to between 0 -> 1024
+// Clip input to between 0 -> 1023
 int clip10(int input) {
   if (input < 0 || input > 2000) return 0;
   if (input > 1023) return 1023;
