@@ -1,5 +1,9 @@
 #include "commands.h"
 
+Commands::Commands() {
+  verboseMode = false;
+}
+
 void Commands::printVersion() {
   #ifdef VERSION1
     Serial.println("NRF Glider v1.0");
@@ -29,6 +33,7 @@ void Commands::printCommandHelp(FlashData *dataPtr) {
   _printCommandHelp('L', "invert left/right", InvertLeftRight & data.flags);
   _printCommandHelp('U', "invert up/down", InvertUpDown & data.flags);
   _printCommandHelp('A', "swap axes", SwapAxes & data.flags);
+  _printCommandHelp('V', "verbose mode", verboseMode);
 }
 
 bool Commands::handleCommands(FlashData *dataPtr) {
@@ -67,6 +72,10 @@ bool Commands::handleCommands(FlashData *dataPtr) {
   }
 
   return false;
+}
+
+bool Commands::isVerbose() {
+  return verboseMode;
 }
 
 bool Commands::_handleCommand(char command, int value, FlashData *data) {
@@ -115,6 +124,13 @@ bool Commands::_handleCommand(char command, int value, FlashData *data) {
         data->flags = data->flags | SwapAxes;
       }
       return true;
+    case 'V':
+      if (value == 0) {
+        verboseMode = false;
+      } else {
+        verboseMode = true;
+      }
+      return false;
   }
 
   return false;

@@ -18,6 +18,7 @@ FlashData data;
 FlashHandler flashHandler;
 Commands commands;
 Enrf24 radio(NRF_CE, NRF_CSN, NRF_IRQ);
+int loopCount = 0;
 
 // the setup routine runs once when you press reset:
 void setup() {                
@@ -53,13 +54,14 @@ void loop() {
     upDown = analogRead(UP_DOWN);
   }
 
-  #ifdef DEBUG
+  if (commands.isVerbose() && loopCount++ > 100) {
+    loopCount = 0;
     Serial.print(leftRight);
     Serial.print("\t");
     Serial.print(upDown);
     Serial.print("\t");
     Serial.println(analogRead(BATTERY));  
-  #endif
+  }
 
   // apply trim, sensitivity, exponentials, etc.
   doTrimControl(); // handle trim button

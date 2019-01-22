@@ -5,11 +5,14 @@
 
 class Commands {
     public:
+        Commands();
         void printVersion();
         void printCommandHelp(FlashData *data);
         bool handleCommands(FlashData *data);
+        bool isVerbose();
 
     private:
+        bool verboseMode;
         void _printCommandHelp(char command, const char* item, int value);
         bool _handleCommand(char command, int value, FlashData *data);
 };
