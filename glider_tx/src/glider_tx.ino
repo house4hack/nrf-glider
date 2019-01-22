@@ -47,11 +47,11 @@ void setup() {
 void loop() {
   // read joystick inputs
   if (SwapAxes & data.flags) {
-    leftRight = analogRead(UP_DOWN);
-    upDown = analogRead(LEFT_RIGHT);
+    leftRight = clip10(map(analogRead(UP_DOWN), UD_LOW, UD_HIGH, 0, 1023));
+    upDown = clip10(map(analogRead(LEFT_RIGHT), LR_LOW, LR_HIGH, 0, 1023));
   } else {
-    leftRight = analogRead(LEFT_RIGHT);
-    upDown = analogRead(UP_DOWN);
+    leftRight = clip10(map(analogRead(LEFT_RIGHT), LR_LOW, LR_HIGH, 0, 1023));
+    upDown = clip10(map(analogRead(UP_DOWN), UD_LOW, UD_HIGH, 0, 1023));
   }
 
   if (commands.isVerbose() && loopCount++ > 100) {
@@ -177,18 +177,14 @@ unsigned int applySensitivityAndTrim(unsigned int input, int trim) {
   double normVal = 512 - retVal;
 
   // apply exponential
-  if (data.exponential > 50) {
-    double v = abs(normVal) / 512.00;
-    if (data.exponential <= 100) {
-      v = v * v;
-    } else if (data.exponential <= 150) {
-      v = v * v * v;
-    } else if (data.exponential <= 200) {
-      v = v * v * v * v;
+  if (data.exponential > 0) {
+    if (abs(normVal) < (data.exponential << 2)) {
+      normVal = normVal * 0.75;
     } else {
-      v = v * v * v * v * v;
+      normVal = normVal * 1.25;
+      if (normVal < 0) normVal += 128;
+      else normVal -= 128;
     }
-    normVal = normVal * v;
   }
 
   // apply sensitivity
@@ -198,8 +194,13 @@ unsigned int applySensitivityAndTrim(unsigned int input, int trim) {
 
   // sanity check output values
   retVal = 512 + round(normVal);
-  if (retVal < 0) retVal = 0;
-  if (retVal > 1023) retVal = 1023;
-
+  retVal = clip10(retVal);
   return retVal;
+}
+
+// Clip input to between 0 -> 1024
+int clip10(int input) {
+  if (input < 0 || input > 2000) return 0;
+  if (input > 1023) return 1023;
+  return input;
 }
