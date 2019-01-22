@@ -22,11 +22,13 @@ void Commands::printCommandHelp(FlashData *dataPtr) {
   printVersion();
   Serial.print("Commands (g-code style):\n");
   _printCommandHelp('C', "channel", data.channel);
-  _printCommandHelp('S', "sensitivity", data.sensitivity);
+  _printCommandHelp('S', "scaling", data.sensitivity);
+  _printCommandHelp('F', "mix factor", data.mixFactor);
+  _printCommandHelp('E', "exponential factor", data.exponential);
   _printCommandHelp('M', "mixing", EnableMixing & data.flags);
   _printCommandHelp('L', "invert left/right", InvertLeftRight & data.flags);
   _printCommandHelp('U', "invert up/down", InvertUpDown & data.flags);
-  _printCommandHelp('A', "Swap axes", SwapAxes & data.flags);
+  _printCommandHelp('A', "swap axes", SwapAxes & data.flags);
 }
 
 bool Commands::handleCommands(FlashData *dataPtr) {
@@ -78,6 +80,12 @@ bool Commands::_handleCommand(char command, int value, FlashData *data) {
       return true;
     case 'S':
       data->sensitivity = value;
+      return true;
+    case 'F':
+      data->mixFactor = value;
+      return true;
+    case 'E':
+      data->exponential = value;
       return true;
     case 'M':
       if (value == 0) {

@@ -32,7 +32,6 @@
 #endif
 
 // Hard-coded parameters
-#define MIX_FACTOR      60  // ratio of aeleron to elevetor, out of 255
 #define MIN_SENSITIVITY 50  // min allowed sensitivity
 #define MAX_TRIM        350 // max allowed trim 0 -> 512
 #define TRIM_TIMEOUT    2000  // min millis between trims

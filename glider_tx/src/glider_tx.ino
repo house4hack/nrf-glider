@@ -69,21 +69,21 @@ void loop() {
   if (EnableMixing & data.flags) {
     // handle mixing (flaperons)
     if (InvertLeftRight & data.flags) {
-      leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
+      leftRight = map(leftRight, 0, 1023, -data.mixFactor, data.mixFactor);
     } else {
-      leftRight = map(leftRight, 1023, 0, -MIX_FACTOR, MIX_FACTOR);
+      leftRight = map(leftRight, 1023, 0, -data.mixFactor, data.mixFactor);
     }
 
     if (InvertUpDown & data.flags) {
       joystick[0] = map(upDown, 0, 1023,  
-        255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
+        255 - data.mixFactor, data.mixFactor) + leftRight; // Left flap 0 -> 255
       joystick[1] = map(upDown, 0, 1023, 
-        MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
+        data.mixFactor, 255 - data.mixFactor) + leftRight; // Right flap 0 -> 255
     } else {
       joystick[0] = map(upDown, 1023, 0,   
-        255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
+        255 - data.mixFactor, data.mixFactor) + leftRight; // Left flap 0 -> 255
       joystick[1] = map(upDown, 1023, 0,  
-        MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
+        data.mixFactor, 255 - data.mixFactor) + leftRight; // Right flap 0 -> 255
     }
   } else {
     // no mixing
@@ -169,16 +169,33 @@ void doTrimControl() {
   }
 }
 
-unsigned int applySensitivityAndTrim(int input, int trim) {
+unsigned int applySensitivityAndTrim(unsigned int input, int trim) {
   // apply trim level
   int retVal = input + trim;
-
-  // apply sensitivity in normalized space
   double normVal = 512 - retVal;
-  normVal = normVal * data.sensitivity / 100;
-  retVal = 512 + round(normVal);
+
+  // apply exponential
+  if (data.exponential > 50) {
+    double v = abs(normVal) / 512.00;
+    if (data.exponential <= 100) {
+      v = v * v;
+    } else if (data.exponential <= 150) {
+      v = v * v * v;
+    } else if (data.exponential <= 200) {
+      v = v * v * v * v;
+    } else {
+      v = v * v * v * v * v;
+    }
+    normVal = normVal * v;
+  }
+
+  // apply sensitivity
+  if (data.sensitivity != 100) {
+    normVal = normVal * data.sensitivity / 100;
+  }
 
   // sanity check output values
+  retVal = 512 + round(normVal);
   if (retVal < 0) retVal = 0;
   if (retVal > 1023) retVal = 1023;
 
