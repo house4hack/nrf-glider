@@ -179,7 +179,7 @@ unsigned int applySensitivityAndTrim(unsigned int input, int trim) {
   // apply exponential
   if (data.exponential > 0) {
     double v = abs(normVal) / 512.00;
-    v = v * v * v; // max exponential = 3
+    v = v * v; // max exponential = 2
     normVal = ((normVal*v*data.exponential) + (normVal * (255-data.exponential))) / 255.0;
   }
 
