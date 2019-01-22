@@ -23,6 +23,10 @@ void Commands::printCommandHelp(FlashData *dataPtr) {
   Serial.print("Commands (g-code style):\n");
   _printCommandHelp('C', "channel", data.channel);
   _printCommandHelp('S', "sensitivity", data.sensitivity);
+  _printCommandHelp('M', "mixing", EnableMixing & data.flags);
+  _printCommandHelp('L', "invert left/right", InvertLeftRight & data.flags);
+  _printCommandHelp('U', "invert up/down", InvertUpDown & data.flags);
+  _printCommandHelp('A', "Swap axes", SwapAxes & data.flags);
 }
 
 bool Commands::handleCommands(FlashData *dataPtr) {
@@ -74,6 +78,34 @@ bool Commands::_handleCommand(char command, int value, FlashData *data) {
       return true;
     case 'S':
       data->sensitivity = value;
+      return true;
+    case 'M':
+      if (value == 0) {
+        data->flags = data->flags & (!EnableMixing);
+      } else {
+        data->flags = data->flags | EnableMixing;
+      }
+      return true;
+    case 'L':
+      if (value == 0) {
+        data->flags = data->flags & (!InvertLeftRight);
+      } else {
+        data->flags = data->flags | InvertLeftRight;
+      }
+      return true;
+    case 'U':
+      if (value == 0) {
+        data->flags = data->flags & (!InvertUpDown);
+      } else {
+        data->flags = data->flags | InvertUpDown;
+      }
+      return true;
+    case 'A':
+      if (value == 0) {
+        data->flags = data->flags & (!SwapAxes);
+      } else {
+        data->flags = data->flags | SwapAxes;
+      }
       return true;
   }
 
