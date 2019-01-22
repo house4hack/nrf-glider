@@ -14,6 +14,7 @@ void FlashHandler::readData(FlashData *data) {
     data->sensitivity = 100;
     data->trimLeftRight = 0;
     data->trimUpDown = 0;
+    data->flags = 0xff & EnableMixing;
     Serial.println("Writing flash...");
     writeData(data);
   } else {

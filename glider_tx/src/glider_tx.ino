@@ -44,10 +44,16 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  leftRight = analogRead(LEFT_RIGHT);
-  upDown = analogRead(UP_DOWN);
+  // read joystick inputs
+  if (SwapAxes & data.flags) {
+    leftRight = analogRead(UP_DOWN);
+    upDown = analogRead(LEFT_RIGHT);
+  } else {
+    leftRight = analogRead(LEFT_RIGHT);
+    upDown = analogRead(UP_DOWN);
+  }
 
-  #ifdef DEBUG_PRINT
+  #ifdef DEBUG
     Serial.print(leftRight);
     Serial.print("\t");
     Serial.print(upDown);
@@ -55,27 +61,50 @@ void loop() {
     Serial.println(analogRead(BATTERY));  
   #endif
 
-  doTrimControl();
+  // apply trim, sensitivity, exponentials, etc.
+  doTrimControl(); // handle trim button
   leftRight = applySensitivityAndTrim(leftRight, data.trimLeftRight);
   upDown = applySensitivityAndTrim(upDown, data.trimUpDown); 
 
-#ifdef VERSION1 
-  leftRight = map(leftRight, 1023, 0, -MIX_FACTOR, MIX_FACTOR);
-  joystick[0] = map(upDown, 1023, 0,   
-    255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
-  joystick[1] = map(upDown, 1023, 0,  
-    MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
-#else
-  leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
-  joystick[0] = map(upDown, 0, 1023,  
-    255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
-  joystick[1] = map(upDown, 0, 1023, 
-    MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
-#endif
+  if (EnableMixing & data.flags) {
+    // handle mixing (flaperons)
+    if (InvertLeftRight & data.flags) {
+      leftRight = map(leftRight, 0, 1023, -MIX_FACTOR, MIX_FACTOR);
+    } else {
+      leftRight = map(leftRight, 1023, 0, -MIX_FACTOR, MIX_FACTOR);
+    }
+
+    if (InvertUpDown & data.flags) {
+      joystick[0] = map(upDown, 0, 1023,  
+        255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
+      joystick[1] = map(upDown, 0, 1023, 
+        MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
+    } else {
+      joystick[0] = map(upDown, 1023, 0,   
+        255 - MIX_FACTOR, MIX_FACTOR) + leftRight; // Left flap 0 -> 255
+      joystick[1] = map(upDown, 1023, 0,  
+        MIX_FACTOR, 255 - MIX_FACTOR) + leftRight; // Right flap 0 -> 255
+    }
+  } else {
+    // no mixing
+    if (InvertLeftRight & data.flags) {
+      joystick[0] = map(leftRight, 1023, 0, 0, 255);
+    } else {
+      joystick[0] = map(leftRight, 0, 1023, 0, 255);
+    }
+
+    if (InvertUpDown & data.flags) {
+      joystick[1] = map(upDown, 1023, 0, 0, 255);
+    } else {
+      joystick[1] = map(upDown, 0, 1023, 0, 255);
+    }
+  }
 
   radio.write(joystick, sizeof(joystick));
   radio.flush();
+  //radio.deepsleep();
 
+  // handle serial commands
   if (commands.handleCommands(&data)) {
     // write changes to flash
     flashHandler.writeData(&data);
@@ -88,6 +117,7 @@ void loop() {
     }
   }
 
+  // Check battery level
   // 435 = 3.0V, 915 = 6.35V
   if (analogRead(BATTERY) < 675 && // low battery condition
       analogRead(BATTERY) > 450 // 3.3V during debugging
@@ -95,7 +125,8 @@ void loop() {
     digitalWrite(BUZZER, HIGH);
   }
 
-  delay(10);
+  // small delay for battery saving
+  sleep(10);
 }
 
 void startRadio() {

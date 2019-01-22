@@ -1,7 +1,7 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-//#define DEBUG_PRINT
+//#define DEBUG
 
 // Default parameters if flash has no data
 #ifdef VERSION1
