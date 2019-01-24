@@ -17,7 +17,8 @@ ESP8266WebServer  server(80);
 Timer             debugTimer(1000);
 
 void setup() {
-    Serial.begin(115200);
+    Serial.begin(9600);     // comms to MSP430
+    Serial1.begin(9600);    // debug output
     debugTimer.start();
     startWifi();
 }
@@ -26,27 +27,22 @@ void loop() {
     dnsServer.processNextRequest();
     server.handleClient(); 
 
-    if (WiFi.softAPgetStationNum() == 0) {
-        digitalWrite(LED, LOW);
-    } else {
-        digitalWrite(LED, HIGH);
-    }
-
     if (debugTimer.done()) {
-        Serial.println("Hi");
+        Serial1.print("WiFi clients: ");
+        Serial1.println(WiFi.softAPgetStationNum());
     }
 }
 
 void startWifi() {
-    Serial.print("Setting soft-AP ... ");
+    Serial1.print("Setting soft-AP ... ");
     WiFi.mode(WIFI_AP);
     WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
     boolean result = WiFi.softAP(WIFI_SSID, WIFI_PASS);
 
     if(result == true) {
-        Serial.println("Ready");
+        Serial1.println("Ready");
     } else {
-        Serial.println("Failed!");
+        Serial1.println("Failed!");
     }
 
     handleWebsite();
@@ -75,7 +71,7 @@ void handleWebsite() {
   server.onNotFound(handleRoot);
 
   server.begin();
-  Serial.println("HTTP server started");
+  Serial1.println("HTTP server started");
 }
 
 void handleRoot() {

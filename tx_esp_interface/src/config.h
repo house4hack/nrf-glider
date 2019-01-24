@@ -8,6 +8,4 @@
 #define WIFI_SSID       "NRF-Glider"
 #define WIFI_PASS       "SoarLikeAnEagle"
 
-#define LED         2
-
 #endif
