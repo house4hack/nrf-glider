@@ -126,9 +126,6 @@ void loop() {
       ) {
     digitalWrite(BUZZER, HIGH);
   }
-
-  // small delay for battery saving
-  sleep(10);
 }
 
 void startRadio() {

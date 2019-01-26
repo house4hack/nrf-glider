@@ -15,7 +15,7 @@ class Commands {
         char command;
         char value[3];
         char valuePtr;
-        char buf[32];
+        char buf[64];
         unsigned long cmdStart;
 
         bool verboseMode;

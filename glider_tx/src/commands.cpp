@@ -40,6 +40,8 @@ void Commands::printCommandHelp(FlashData *dataPtr) {
 bool Commands::handleCommands(FlashData *dataPtr) {
   FlashData data = (*dataPtr);
   bool ret = false;
+
+  if (Serial.available() <= 0) return false;
   char len = Serial.readBytes(buf, sizeof(buf));
 
   if (millis() - cmdStart > 1000) {
@@ -51,6 +53,7 @@ bool Commands::handleCommands(FlashData *dataPtr) {
     }
   }
 
+  if (len == 0) return false;
   for (int i=0; i < len; i++) {
     char c = buf[i];
     if (c == '?') {
