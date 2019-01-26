@@ -39,32 +39,44 @@ void Commands::printCommandHelp(FlashData *dataPtr) {
 // Example commands: C100 S100 F60 E0 A0 L0 U0 M1 
 bool Commands::handleCommands(FlashData *dataPtr) {
   FlashData data = (*dataPtr);
-  char command, c;
-  char value[3];
   bool ret = false;
+  char len = Serial.readBytes(buf, sizeof(buf));
 
-  while (Serial.available() > 0) {
-    for (c=0; c < sizeof(value); c++) value[c] = 0;
-    c = Serial.read();
+  if (millis() - cmdStart > 1000) {
+    // timeout previous command
+    if (command != 0 && valuePtr > 0) {
+      _handleCommand(command, String(value).toInt(), dataPtr);
+      command = 0;
+      ret = true;
+    }
+  }
+
+  for (int i=0; i < len; i++) {
+    char c = buf[i];
     if (c == '?') {
       printCommandHelp(dataPtr);
     } else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
-      // command start, read up to 3 numerical digits as value
+      // command start
       command = c;
-      char i = 0;
-      unsigned long start = millis();
-      while (millis() - start < 1000 && i < 3) {
-        c = Serial.read();
-        if (c >= '0' && c <= '9') {
-          value[i++] = c;
-        } else if (c > 0) {
-          break;
-        }
-      }
+      for (c=0; c < sizeof(value); c++) value[c] = 0;
+      valuePtr = 0;
+      cmdStart = millis();
+    } else if (command != 0 && (c >= '0' && c <= '9')) {
+      // read up to 3 numerical digits as command parameter
+      value[valuePtr++] = c;
 
-      ret = _handleCommand(command, String(value).toInt(), dataPtr);
+      if (valuePtr >= 3) {
+        _handleCommand(command, String(value).toInt(), dataPtr);
+        command = 0;
+        ret = true;
+      }
     } else {
-      // ignore
+      // other characters act as whitespace
+      if (command != 0 && valuePtr > 0) {
+        _handleCommand(command, String(value).toInt(), dataPtr);
+        command = 0;
+        ret = true;
+      }
     }
   }
 

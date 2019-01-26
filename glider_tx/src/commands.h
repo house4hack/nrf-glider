@@ -12,6 +12,12 @@ class Commands {
         bool isVerbose();
 
     private:
+        char command;
+        char value[3];
+        char valuePtr;
+        char buf[32];
+        unsigned long cmdStart;
+
         bool verboseMode;
         void _printCommandHelp(char command, const char* item, int value);
         bool _handleCommand(char command, int value, FlashData *data);
