@@ -30,25 +30,37 @@ const char INDEX_HTML[] PROGMEM = R"=====(
                     <form name="settingsForm">
                     <p>
                         <b>Flags:</b><br />
-                        <input type="checkbox" name="flags" value="0"/> Enable mixing<br/>
-                        <input type="checkbox" name="flags" value="0"/> Invert Left/Right<br/>
-                        <input type="checkbox" name="flags" value="0"/> Invert Up/Down<br/>
-                        <input type="checkbox" name="flags" value="0"/> Swap axes<br/>
+                        <input type="checkbox" name="f_mix"/> Enable mixing<br/>
+                        <input type="checkbox" name="f_invert_lr"/> Invert Left/Right<br/>
+                        <input type="checkbox" name="f_invert_ud"/> Invert Up/Down<br/>
+                        <input type="checkbox" name="f_swap_axes"/> Swap axes<br/>
                     </p>
 
                     <p>
                         <b>Channel:</b><br />
-                        <select name="channel">
-                            <option>0</option>
-                            <option>100</option>
-                            <option>110</option>
-                            <option>120</option>
-                        </select>
+                        <input type="text" name="channel" value="100"/>
                     </p>
+
+                    <p>
+                        <b>Scale:</b><br />
+                        <input type="text" name="scale" value="100"/>
+                    </p>
+
+                    <p>
+                        <b>Exponential:</b><br />
+                        <input type="text" name="exponential" value="0"/>
+                    </p>
+
+                    <p>
+                        <b>Mix factor:</b><br />
+                        <input type="text" name="mix" value="60"/>
+                    </p>
+
                     </form>
                 </div>
                 <div class="card-footer">
                     <button onclick="onSaveSettings(this)" class="btn btn-primary">Apply Settings</button>
+                    <div id="progress"></div>
                 </div>
             </div>
         </div>
@@ -62,11 +74,29 @@ const char INDEX_HTML[] PROGMEM = R"=====(
 const char APP_JS[] PROGMEM = R"=====(
 function onSaveSettings(button) {
     let form = document.forms[0];
-    let params = "";
+    let progress = document.getElementById("progress");
+    progress.innerHTML = "Applying...";
 
-    makeRequest("/save-settings?" + params, function() {
-        toast(this.responseText);
-    });    
+    let command = "C" + form.channel.value + " ";
+    command += "S" + form.scale.value + " ";
+    command += "E" + form.exponential.value + " ";
+    command += "F" + form.mix.value + " ";
+    command += "L" + (form.f_invert_lr.checked?1:0) + " ";
+    command += "U" + (form.f_invert_ud.checked?1:0) + " ";
+    command += "A" + (form.f_swap_axes.checked?1:0) + " ";
+    command += "M" + (form.f_mix.checked?1:0) + " ";
+ 
+    try {
+        makeRequest("/send-command?command=" + command, function() {
+            if (this.responseText != "Ok") throw this.responseText;
+        });    
+    } catch (e) {
+        progress.innerHTML = "ERROR " + e;
+        return;
+    }
+
+    //toast("Ok");
+    progress.innerHTML = "Ok";
 }
 
 function makeRequest(url, onComplete) {

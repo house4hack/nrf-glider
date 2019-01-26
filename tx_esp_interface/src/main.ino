@@ -63,8 +63,10 @@ void handleWebsite() {
       server.send(200, "text/javascript", FPSTR(MARKUP_JS));
   });
 
-  server.on("/save-settings", []() {
-      server.send(200, "text/plain", "TODO");
+  server.on("/send-command", []() {
+      Serial.println(server.arg("command"));
+      Serial.flush();
+      server.send(200, "text/plain", "Ok");
   });
 
   server.on("/", handleRoot);
