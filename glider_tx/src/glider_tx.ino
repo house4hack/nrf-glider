@@ -33,6 +33,7 @@ void setup() {
   digitalWrite(BUZZER, LOW);  
 
   Serial.begin(9600); 
+  Serial.setTimeout(5);
   flashHandler.readData(&data);
   commands.printCommandHelp(&data);
 
