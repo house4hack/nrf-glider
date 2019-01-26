@@ -36,13 +36,15 @@ void Commands::printCommandHelp(FlashData *dataPtr) {
   _printCommandHelp('V', "verbose mode", verboseMode);
 }
 
+// Example commands: C100 S100 F60 E0 A0 L0 U0 M1 
 bool Commands::handleCommands(FlashData *dataPtr) {
   FlashData data = (*dataPtr);
   char command, c;
   char value[3];
+  bool ret = false;
 
-  for (c=0; c < sizeof(value); c++) value[c] = 0;
   while (Serial.available() > 0) {
+    for (c=0; c < sizeof(value); c++) value[c] = 0;
     c = Serial.read();
     if (c == '?') {
       printCommandHelp(dataPtr);
@@ -52,26 +54,21 @@ bool Commands::handleCommands(FlashData *dataPtr) {
       char i = 0;
       unsigned long start = millis();
       while (millis() - start < 1000 && i < 3) {
-        if (Serial.available() > 0) {
-          c = Serial.read();
-        } else {
-          c = 0;
-        }
-
+        c = Serial.read();
         if (c >= '0' && c <= '9') {
           value[i++] = c;
-        } else if (c != 0) {
+        } else if (c > 0) {
           break;
         }
       }
 
-      return _handleCommand(command, String(value).toInt(), dataPtr);
+      ret = _handleCommand(command, String(value).toInt(), dataPtr);
     } else {
       // ignore
     }
   }
 
-  return false;
+  return ret;
 }
 
 bool Commands::isVerbose() {
