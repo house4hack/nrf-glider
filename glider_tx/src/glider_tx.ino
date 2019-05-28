@@ -131,7 +131,7 @@ void loop() {
 
 void startRadio() {
   radio.begin(250000, data.channel);  // Defaults 250kbps
-  radio.setTXpower(0);  // max power
+  radio.setTXpower(7);  // max power, max RX sensitivity
   radio.autoAck(false);
   radio.setCRC(true, false);  // 8-bit CRC
   radio.setRXaddress((void*)rxaddr);
