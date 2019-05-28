@@ -75,7 +75,7 @@ void setup()
   SPI.setBitOrder(MSBFIRST);
 
   radio.begin(250000, CHANNEL);
-  radio.setTXpower(0);
+  radio.setTXpower(7);  // max TX power, max RX sensitivity
   radio.autoAck(false);
   radio.setCRC(true, false);
   radio.setRXaddress((void *)rxaddr);
